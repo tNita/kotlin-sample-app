@@ -14,27 +14,7 @@ jobs:
 
       - uses: ./.github/actions/setup-gradle-project
 
-      - name: Install Docker Compose dependencies
-        run: sudo apt-get update && sudo apt-get install -y docker-compose postgresql-client
-
-      - name: Start services
-        run: docker compose -f compose.yaml up -d postgres
-
-      - name: Wait for Postgres
-        run: |
-          for i in {1..10}; do
-            docker compose -f compose.yaml exec -T postgres pg_isready -U bookmanager && exit 0
-            sleep 2
-          done
-          echo "Postgres not ready" >&2
-          docker compose -f compose.yaml logs postgres
-          exit 1
-
       - name: Run unit tests
-        env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/bookmanager
-          SPRING_DATASOURCE_USERNAME: bookmanager
-          SPRING_DATASOURCE_PASSWORD: bookmanager
         run: ./gradlew test
 
   int-test:
