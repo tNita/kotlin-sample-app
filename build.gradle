@@ -27,6 +27,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jooq'
 	implementation 'org.flywaydb:flyway-database-postgresql'
 	implementation 'org.jetbrains.kotlin:kotlin-reflect'
+	implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+	implementation platform('software.amazon.awssdk:bom:2.54.16')
+	implementation platform('io.awspring.cloud:spring-cloud-aws-dependencies:4.1.1')
+	implementation 'io.awspring.cloud:spring-cloud-aws-starter-integration-sqs'
+	implementation 'org.springframework.integration:spring-integration-jdbc'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
 	implementation 'com.fasterxml.uuid:java-uuid-generator:5.0.0'
 	jooqGenerator "org.jooq:jooq-meta-extensions:${dependencyManagement.importedProperties['jooq.version']}"
@@ -81,9 +86,34 @@ sourceSets {
 	main {
 		java.srcDir 'build/generated-src/jooq/main'
 	}
+	intTest {
+		compileClasspath += sourceSets.main.output
+		runtimeClasspath += output + compileClasspath
+	}
+}
+
+configurations.named(sourceSets.intTest.implementationConfigurationName) {
+	extendsFrom configurations.testImplementation
+}
+
+configurations.named(sourceSets.intTest.runtimeOnlyConfigurationName) {
+	extendsFrom configurations.testRuntimeOnly
 }
 
 tasks.named('test') {
+	useJUnitPlatform()
+	testLogging {
+		events 'passed', 'skipped', 'failed'
+		showStandardStreams = true
+	}
+}
+
+tasks.register('intTest', Test) {
+	description = 'Runs integration tests.'
+	group = 'verification'
+	testClassesDirs = sourceSets.intTest.output.classesDirs
+	classpath = sourceSets.intTest.runtimeClasspath
+	shouldRunAfter tasks.named('test')
 	useJUnitPlatform()
 	testLogging {
 		events 'passed', 'skipped', 'failed'

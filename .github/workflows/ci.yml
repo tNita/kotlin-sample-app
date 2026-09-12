@@ -6,27 +6,13 @@ on:
   pull_request:
 
 jobs:
-  test:
+  unit-test:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 21
-
-      - name: Cache Gradle
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+      - uses: ./.github/actions/setup-gradle-project
 
       - name: Install Docker Compose dependencies
         run: sudo apt-get update && sudo apt-get install -y docker-compose postgresql-client
@@ -44,9 +30,54 @@ jobs:
           docker compose -f compose.yaml logs postgres
           exit 1
 
-      - name: Run tests
+      - name: Run unit tests
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/bookmanager
           SPRING_DATASOURCE_USERNAME: bookmanager
           SPRING_DATASOURCE_PASSWORD: bookmanager
         run: ./gradlew test
+
+  int-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-gradle-project
+
+      - name: Install Docker Compose dependencies
+        run: sudo apt-get update && sudo apt-get install -y docker-compose postgresql-client
+
+      - name: Start services
+        run: docker compose -f compose.yaml up -d postgres ministack
+
+      - name: Wait for Postgres
+        run: |
+          for i in {1..10}; do
+            docker compose -f compose.yaml exec -T postgres pg_isready -U bookmanager && exit 0
+            sleep 2
+          done
+          echo "Postgres not ready" >&2
+          docker compose -f compose.yaml logs postgres
+          exit 1
+
+      - name: Wait for MiniStack
+        run: |
+          for i in {1..20}; do
+            curl --fail --silent http://localhost:4566/_ministack/health && exit 0
+            sleep 2
+          done
+          echo "MiniStack not ready" >&2
+          docker compose -f compose.yaml logs ministack
+          exit 1
+
+      - name: Run tests
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/bookmanager
+          SPRING_DATASOURCE_USERNAME: bookmanager
+          SPRING_DATASOURCE_PASSWORD: bookmanager
+          SPRING_CLOUD_AWS_ENDPOINT: http://localhost:4566
+          SPRING_CLOUD_AWS_REGION_STATIC: ap-northeast-1
+          SPRING_CLOUD_AWS_CREDENTIALS_ACCESS_KEY: test
+          SPRING_CLOUD_AWS_CREDENTIALS_SECRET_KEY: test
+        run: ./gradlew intTest
