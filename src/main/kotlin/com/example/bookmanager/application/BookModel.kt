@@ -2,13 +2,13 @@ package com.example.bookmanager.application
 
 import com.example.bookmanager.domain.Author
 import com.example.bookmanager.domain.Book
-import com.example.bookmanager.domain.query.AuthorView
-import com.example.bookmanager.domain.query.BookView
+import com.example.bookmanager.application.port.outbound.AuthorView
+import com.example.bookmanager.application.port.outbound.BookView
 import java.math.BigDecimal
 import java.util.UUID
 
 /**
- * アプリケーション層からプレゼンテーション層へ返却するシンプルなレスポンスモデル。
+ * アプリケーション層から inbound アダプタへ返却するシンプルなレスポンスモデル。
  * ドメインの値オブジェクト／エンティティはそのまま漏らさない。
  */
 

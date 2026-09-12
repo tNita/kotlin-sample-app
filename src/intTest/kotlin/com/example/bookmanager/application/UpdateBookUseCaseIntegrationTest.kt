@@ -1,5 +1,6 @@
 package com.example.bookmanager.application
 
+import com.example.bookmanager.application.usecase.UpdateBookUseCase
 import com.example.bookmanager.domain.AuthorId
 import com.example.bookmanager.domain.PublishStatus
 import com.example.bookmanager.shared.Id

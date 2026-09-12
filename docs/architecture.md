@@ -7,37 +7,43 @@
   - Docker Compose により複数コンテナ（アプリ・DB）の起動・依存関係を管理する
 
 ## ソフトウェアアーキテクチャ
-- DDD/オニオンアーキテクチャを採用
-    - プレゼンテーション層（入出力 / API）
-    - アプリケーション層（ユースケース）
-    - ドメイン層（ドメインモデル・ドメインサービス）
-    - インフラ層（DB など外部リソース）
+- Clean Architecture を採用
+    - `application/port/inbound`: ユースケースを呼び出す契約
+    - `application/usecase`: ユースケース実装
+    - `application/port/outbound`: 永続化・外部連携の契約
+    - `domain`: エンティティと値オブジェクト
+    - `infrastructure/inbound`: REST・SQS などの入力アダプタ
+    - `infrastructure/outbound`: jOOQ などの出力アダプタ
 
 ```mermaid
 graph TD
 
-    Presentation["プレゼンテーション層"]
-    Application["アプリケーション層"]
+    Inbound["infrastructure/inbound"]
+    InboundPort["application/port/inbound"]
+    UseCase["application/usecase"]
+    OutboundPort["application/port/outbound"]
     Domain["ドメイン層"]
-    Infrastructure["インフラ層"]
+    Outbound["infrastructure/outbound"]
 
-    Presentation --> Application
-    Application --> Domain
-    Infrastructure --> Domain
-    Infrastructure --> Application
+    Inbound --> InboundPort
+    InboundPort --> UseCase
+    UseCase --> Domain
+    UseCase --> OutboundPort
+    Outbound --> OutboundPort
 ```
 
 ### レイヤーごとの責務
-- プレゼンテーション: リクエスト/レスポンス変換とバリデーション結果の返却に限定する
-- アプリケーション: ユースケース単位のサービス、トランザクション境界、ワークフロー調整を担う
-- ドメイン: 
-  - ビジネスロジックと不変条件を集約する。
-  - コマンド/クエリを分離したインターフェースを持つ（`domain` のコマンド側リポジトリと、`domain/query` の参照専用リポジトリ）。
-- インフラ: RDB や外部システム連携を担当し、ドメインにインフラ詳細を漏らさない
+- inbound: REST/SQS のリクエスト変換、入力検証、入力ポートの呼び出しに限定する。
+- inbound port: inbound アダプタが利用するユースケースの契約を定義する。
+- usecase: ワークフロー調整とアプリケーションサービスを担い、port を通じて外部要素を利用する。
+- outbound port: ユースケースが必要とする永続化・検索の契約と参照モデルを定義する。
+- domain: エンティティ、値オブジェクト、不変条件を保持する。フレームワークや永続化に依存しない。
+- outbound: RDB などの外部リソースを実装し、outbound port を満たす。
+- Spring の部品組み立てとトランザクション境界は `infrastructure/config` に置く。domain と usecase は Spring API に依存しない。
 
 ### 設計の進め方
 - ドメインモデルは [`domain-modeling.drawio.svg`](./domain-modeling.drawio.svg) を基準とする
-- ドメイン層は戦術的 DDD パターン（値オブジェクト / エンティティ / リポジトリ / ドメインサービス）で実装する
+- ドメイン層は戦術的 DDD パターン（値オブジェクト / エンティティ）で実装する
 
 ## API 設計の前提
 - REST 原則に従う（リソース指向、HTTP メソッドの意味付け）

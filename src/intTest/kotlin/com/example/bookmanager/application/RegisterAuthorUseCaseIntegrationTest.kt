@@ -1,6 +1,7 @@
 package com.example.bookmanager.application
 
-import com.example.bookmanager.application.RegisterAuthorUseCase.Parameter
+import com.example.bookmanager.application.usecase.RegisterAuthorUseCase
+import com.example.bookmanager.application.usecase.RegisterAuthorUseCase.Parameter
 import com.example.bookmanager.support.db.IntegrationTestSupport
 import com.example.bookmanager.jooq.tables.Authors.AUTHORS
 import org.assertj.core.api.Assertions.assertThat

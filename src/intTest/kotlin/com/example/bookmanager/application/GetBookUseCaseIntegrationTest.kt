@@ -1,5 +1,6 @@
 package com.example.bookmanager.application
 
+import com.example.bookmanager.application.usecase.GetBookUseCase
 import com.example.bookmanager.support.book.BookSeedIds
 import com.example.bookmanager.support.book.seedDefaultBooks
 import com.example.bookmanager.support.db.IntegrationTestSupport

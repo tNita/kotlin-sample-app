@@ -1,5 +1,6 @@
 package com.example.bookmanager.application
 
+import com.example.bookmanager.application.usecase.SearchAuthorUseCase
 import com.example.bookmanager.support.author.AuthorFixture
 import com.example.bookmanager.support.author.insert
 import com.example.bookmanager.support.db.IntegrationTestSupport
