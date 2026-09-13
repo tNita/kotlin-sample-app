@@ -18,9 +18,10 @@
 
 ## 起動・テスト方法
 - 前提: JDK 21、Docker (PostgreSQL / SQS を起動する場合)
-- テスト: `./gradlew test`
+- 単体テスト: `./gradlew test`
+- 統合テスト: `./gradlew intTest`
 - DB / SQS 起動: `docker compose up -d postgres ministack`
-- アプリ起動: `./gradlew bootRun`（DB が起動していること）
+- アプリ起動: `./gradlew :infra:bootRun`（DB が起動していること）
 - Docker で全体起動: `docker compose --profile app up --build`
 - Swagger UI: アプリ起動後、`http://localhost:8080/swagger-ui/index.html` にアクセス
 - MiniStack: `http://localhost:4566`
@@ -58,7 +59,15 @@ aws --endpoint-url=http://localhost:4566 sqs send-message \
   --message-body '{"name":"宮沢賢治","birthDate":"1896-08-27"}'
 ```
 
+## マルチプロジェクト構成
+
+- `shared`: 複数層で共有する基盤的な型
+- `domain`: エンティティ、値オブジェクト、不変条件
+- `application`: ユースケースと入出力ポート
+- `infra`: Spring Boot アプリケーション、REST/SQS、jOOQ、外部サービス連携
+
+依存方向は `infra → application → domain → shared` です。実行可能なアプリケーションと統合テストは `infra` に配置しています。
+
 ## TODO
 - フォーマッター・リンターの導入
-- 各層ごとのマルチプロジェクト構成の検討
 - jOOQのKotlinコード自動生成設定

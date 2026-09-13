@@ -41,6 +41,22 @@ graph TD
 - outbound: RDB などの外部リソースを実装し、outbound port を満たす。
 - Spring の部品組み立てとトランザクション境界は `infrastructure/config` に置く。domain と usecase は Spring API に依存しない。
 
+### Gradle モジュール
+
+各層は次の Gradle サブプロジェクトに対応する。依存は内側の層にだけ向け、逆方向の依存を作らない。
+
+```mermaid
+graph RL
+    Infrastructure[infra] --> Application[application]
+    Application --> Domain[domain]
+    Domain --> Shared[shared]
+```
+
+- `shared`: 共有の基盤型
+- `domain`: ドメインモデル
+- `application`: ユースケースとポート
+- `infra`: 実行可能な Spring Boot アプリケーションと各種アダプタ
+
 ### 設計の進め方
 - ドメインモデルは [`domain-modeling.drawio.svg`](./domain-modeling.drawio.svg) を基準とする
 - ドメイン層は戦術的 DDD パターン（値オブジェクト / エンティティ）で実装する

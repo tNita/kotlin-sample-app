@@ -16,9 +16,7 @@ import com.example.bookmanager.domain.PublishStatus
 import com.example.bookmanager.shared.Id
 import java.math.BigDecimal
 import java.util.UUID
-import org.springframework.stereotype.Service
 
-@Service
 class RunBookUpdateBatchJobUseCase(
     private val messagePoller: MessagePoller,
     private val idempotencyRepository: IdempotencyRepository,

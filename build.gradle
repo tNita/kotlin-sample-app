@@ -1,124 +1,24 @@
 plugins {
-	id 'org.jetbrains.kotlin.jvm' version '2.2.21'
-	id 'org.jetbrains.kotlin.plugin.spring' version '2.2.21'
-	id 'org.springframework.boot' version '4.0.0'
-	id 'io.spring.dependency-management' version '1.1.7'
-	id 'nu.studer.jooq' version '9.0'
+	id 'org.jetbrains.kotlin.jvm' version '2.2.21' apply false
+	id 'org.jetbrains.kotlin.plugin.spring' version '2.2.21' apply false
+	id 'org.springframework.boot' version '4.0.0' apply false
+	id 'io.spring.dependency-management' version '1.1.7' apply false
+	id 'nu.studer.jooq' version '9.0' apply false
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-description = 'Book Manager'
 
-java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
+subprojects {
+	group = rootProject.group
+	version = rootProject.version
+	repositories {
+		mavenCentral()
 	}
 }
 
-repositories {
-	mavenCentral()
-}
-
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-flyway'
-	implementation 'org.springframework.boot:spring-boot-starter-jooq'
-	implementation 'org.flywaydb:flyway-database-postgresql'
-	implementation 'org.jetbrains.kotlin:kotlin-reflect'
-	implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
-	implementation platform('software.amazon.awssdk:bom:2.54.16')
-	implementation platform('io.awspring.cloud:spring-cloud-aws-dependencies:4.1.1')
-	implementation 'io.awspring.cloud:spring-cloud-aws-starter-integration-sqs'
-	implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3'
-	implementation 'software.amazon.awssdk:sfn'
-	implementation 'org.springframework.integration:spring-integration-jdbc'
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
-	implementation 'com.fasterxml.uuid:java-uuid-generator:5.0.0'
-	jooqGenerator "org.jooq:jooq-meta-extensions:${dependencyManagement.importedProperties['jooq.version']}"
-	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
-	runtimeOnly 'org.postgresql:postgresql'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.boot:spring-boot-starter-flyway-test'
-	testImplementation 'org.springframework.boot:spring-boot-starter-jooq-test'
-	testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
-
-kotlin {
-	compilerOptions {
-		freeCompilerArgs.addAll '-Xjsr305=strict', '-Xannotation-default-target=param-property'
-	}
-}
-
-jooq {
-	version = dependencyManagement.importedProperties['jooq.version']
-	edition = nu.studer.gradle.jooq.JooqEdition.OSS
-	configurations {
-		main {
-			generateSchemaSourceOnCompilation = true
-			jooqConfiguration.with {
-				logging = org.jooq.meta.jaxb.Logging.WARN
-				generator.with {
-					name = 'org.jooq.codegen.DefaultGenerator'
-					database.with {
-						name = 'org.jooq.meta.extensions.ddl.DDLDatabase'
-						properties = [
-								new org.jooq.meta.jaxb.Property().withKey('scripts').withValue('src/main/resources/db/migration'),
-								new org.jooq.meta.jaxb.Property().withKey('sort').withValue('semantic'),
-								new org.jooq.meta.jaxb.Property().withKey('defaultNameCase').withValue('lower')
-						]
-					}
-					generate.with {
-						daos = false
-						pojos = false
-					}
-					target.with {
-						packageName = 'com.example.bookmanager.jooq'
-						directory = 'build/generated-src/jooq/main'
-					}
-				}
-			}
-		}
-	}
-}
-
-sourceSets {
-	main {
-		java.srcDir 'build/generated-src/jooq/main'
-	}
-	intTest {
-		compileClasspath += sourceSets.main.output
-		runtimeClasspath += output + compileClasspath
-	}
-}
-
-configurations.named(sourceSets.intTest.implementationConfigurationName) {
-	extendsFrom configurations.testImplementation
-}
-
-configurations.named(sourceSets.intTest.runtimeOnlyConfigurationName) {
-	extendsFrom configurations.testRuntimeOnly
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
-	testLogging {
-		events 'passed', 'skipped', 'failed'
-		showStandardStreams = true
-	}
-}
-
-tasks.register('intTest', Test) {
+tasks.register('intTest') {
 	description = 'Runs integration tests.'
 	group = 'verification'
-	testClassesDirs = sourceSets.intTest.output.classesDirs
-	classpath = sourceSets.intTest.runtimeClasspath
-	shouldRunAfter tasks.named('test')
-	useJUnitPlatform()
-	testLogging {
-		events 'passed', 'skipped', 'failed'
-		showStandardStreams = true
-	}
+	dependsOn ':infra:intTest'
 }
