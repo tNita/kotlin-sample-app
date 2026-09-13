@@ -1,7 +1,7 @@
 package com.example.bookmanager.application.usecase
 
 import com.example.bookmanager.application.AuthorResult
-import com.example.bookmanager.application.service.AuthorDomainService
+import com.example.bookmanager.application.policy.AuthorPolicy
 import com.example.bookmanager.application.port.inbound.RegisterAuthorCommand
 import com.example.bookmanager.application.port.inbound.RegisterAuthorInputPort
 import com.example.bookmanager.application.port.outbound.AuthorRepository
@@ -17,7 +17,7 @@ import java.time.LocalDate
 @Transactional
 class RegisterAuthorUseCase(
     private val authorRepository: AuthorRepository,
-    private val authorDomainService: AuthorDomainService,
+    private val authorPolicy: AuthorPolicy,
 ) : RegisterAuthorInputPort {
     /**
      * 著者の重複を避けつつ登録する。
@@ -27,7 +27,7 @@ class RegisterAuthorUseCase(
             val name = AuthorName.of(command.name)
             val birthDate = BirthDate.of(command.birthDate)
             val author = Author.create(name, birthDate)
-            authorDomainService.ensureNotDuplicated(author)
+            authorPolicy.ensureNotDuplicated(author)
 
             val saved = authorRepository.save(author)
             saved.toResult()

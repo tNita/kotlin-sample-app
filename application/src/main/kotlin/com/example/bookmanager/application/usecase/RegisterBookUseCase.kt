@@ -1,7 +1,7 @@
 package com.example.bookmanager.application.usecase
 
 import com.example.bookmanager.application.CommandBookOutput
-import com.example.bookmanager.application.service.AuthorDomainService
+import com.example.bookmanager.application.policy.AuthorPolicy
 import com.example.bookmanager.application.port.inbound.RegisterBookCommand
 import com.example.bookmanager.application.port.inbound.RegisterBookInputPort
 import com.example.bookmanager.application.port.outbound.BookRepository
@@ -19,7 +19,7 @@ import java.math.BigDecimal
 @Transactional
 class RegisterBookUseCase(
     private val bookRepository: BookRepository,
-    private val authorDomainService: AuthorDomainService,
+    private val authorPolicy: AuthorPolicy,
 ) : RegisterBookInputPort {
     /**
      * 著者の存在を検証しつつ書籍を登録する。
@@ -28,7 +28,7 @@ class RegisterBookUseCase(
         runUseCase {
             val title = Title.of(command.title)
             val price = Price.of(command.price)
-            authorDomainService.ensureAllExist(command.authorIds)
+            authorPolicy.ensureAllExist(command.authorIds)
 
             val book =
                 Book.create(

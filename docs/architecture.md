@@ -71,7 +71,7 @@ graph RL
 
 同じ `infra` モジュールで、API は `BookManagerApplication`、バッチは
 `bootstrap/batch/BatchApplication` を起動します。
-API は `application/usecase`・`application/service`・`inbound/rest`・`inbound/messaging`・`config`・`outbound` をスキャンします。
-バッチは `application/usecase`・`application/service`・`inbound/job`・`config`・`outbound` をスキャンします。
+API は `application`・`inbound/rest`・`inbound/messaging`・`config`・`outbound` をスキャンします。
+バッチは `application`・`inbound/job`・`config`・`outbound` をスキャンします。
 バッチ専用の入力処理はバッチ起動クラスのコンポーネントスキャンにだけ含めます。
 バッチは Web を無効化し、Runner が保持する終了コードを main 関数でプロセスの終了コードに変換します。

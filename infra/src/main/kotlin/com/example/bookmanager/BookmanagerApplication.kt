@@ -12,8 +12,7 @@ import org.springframework.context.annotation.FilterType
     basePackages = [
         "com.example.bookmanager.infrastructure.inbound.rest",
         "com.example.bookmanager.infrastructure.inbound.messaging",
-        "com.example.bookmanager.application.usecase",
-        "com.example.bookmanager.application.service",
+        "com.example.bookmanager.application",
         "com.example.bookmanager.infrastructure.config",
         "com.example.bookmanager.infrastructure.outbound",
     ],

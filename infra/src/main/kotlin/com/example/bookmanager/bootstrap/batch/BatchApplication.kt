@@ -13,8 +13,7 @@ import kotlin.system.exitProcess
 @ComponentScan(
     basePackages = [
         "com.example.bookmanager.infrastructure.inbound.job",
-        "com.example.bookmanager.application.usecase",
-        "com.example.bookmanager.application.service",
+        "com.example.bookmanager.application",
         "com.example.bookmanager.infrastructure.config",
         "com.example.bookmanager.infrastructure.outbound",
     ],

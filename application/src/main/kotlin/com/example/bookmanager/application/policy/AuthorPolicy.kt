@@ -1,4 +1,4 @@
-package com.example.bookmanager.application.service
+package com.example.bookmanager.application.policy
 
 import com.example.bookmanager.application.port.outbound.AuthorRepository
 import com.example.bookmanager.domain.Author
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
  * リポジトリを利用して著者に関する整合性を判定するドメインサービス。
  */
 @Service
-class AuthorDomainService(
+class AuthorPolicy(
     private val authorRepository: AuthorRepository,
 ) {
     fun ensureNotDuplicated(author: Author) {
