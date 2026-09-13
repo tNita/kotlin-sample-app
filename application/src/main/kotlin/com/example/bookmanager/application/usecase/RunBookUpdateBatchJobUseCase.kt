@@ -16,13 +16,13 @@ import java.util.UUID
 
 @Service
 class RunBookUpdateBatchJobUseCase(
-    private val batchTaskExecutor: BatchTaskExecutor,
+    private val batchExecutor: MessageDrivenBatchJobExecutor,
     private val getBook: GetBookInputPort,
     private val updateBook: UpdateBookInputPort,
     private val storage: RemoteStorage,
 ) : RunBookUpdateBatchJobInputPort {
     override fun execute() {
-        batchTaskExecutor.execute(UpdateTaskData.TASK_TYPE, "書籍一括更新に失敗しました", ::process)
+        batchExecutor.execute(UpdateTaskData.TASK_TYPE, "書籍一括更新に失敗しました", ::process)
     }
 
     private fun process(data: UpdateTaskData) {

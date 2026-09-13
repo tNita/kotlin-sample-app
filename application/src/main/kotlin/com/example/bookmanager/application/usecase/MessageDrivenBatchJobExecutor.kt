@@ -7,9 +7,11 @@ import com.example.bookmanager.application.port.outbound.TaskNotified
 import com.example.bookmanager.application.port.outbound.TaskNotifier
 import org.springframework.stereotype.Service
 
-/** バッチの受信・冪等性管理・完了通知を共通の手順で実行する。 */
+/**
+ * メッセージ駆動バッチの受信、冪等性管理、個別処理、タスク通知を実行する。
+ */
 @Service
-class BatchTaskExecutor(
+class MessageDrivenBatchJobExecutor(
     private val messagePoller: MessagePoller,
     private val idempotencyRepository: IdempotencyRepository,
     private val taskNotifier: TaskNotifier,

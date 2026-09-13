@@ -12,12 +12,12 @@ import java.util.UUID
 
 @Service
 class RunAuthorUpdateBatchJobUseCase(
-    private val batchTaskExecutor: BatchTaskExecutor,
+    private val batchExecutor: MessageDrivenBatchJobExecutor,
     private val updateAuthor: UpdateAuthorAffiliationInputPort,
     private val storage: RemoteStorage,
 ) : RunAuthorUpdateBatchJobInputPort {
     override fun execute() {
-        batchTaskExecutor.execute(UpdateTaskData.TASK_TYPE, "著者所属一括更新に失敗しました", ::process)
+        batchExecutor.execute(UpdateTaskData.TASK_TYPE, "著者所属一括更新に失敗しました", ::process)
     }
 
     private fun process(data: UpdateTaskData) {
