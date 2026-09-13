@@ -1,0 +1,3 @@
+bookmanager:
+  book-update-batch:
+    enabled: ${BOOK_UPDATE_BATCH_ENABLED:false}

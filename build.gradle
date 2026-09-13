@@ -31,6 +31,8 @@ dependencies {
 	implementation platform('software.amazon.awssdk:bom:2.54.16')
 	implementation platform('io.awspring.cloud:spring-cloud-aws-dependencies:4.1.1')
 	implementation 'io.awspring.cloud:spring-cloud-aws-starter-integration-sqs'
+	implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3'
+	implementation 'software.amazon.awssdk:sfn'
 	implementation 'org.springframework.integration:spring-integration-jdbc'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
 	implementation 'com.fasterxml.uuid:java-uuid-generator:5.0.0'
