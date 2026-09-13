@@ -3,6 +3,8 @@ import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.tasks.testing.Test
 import org.jooq.meta.jaxb.Logging
 import org.jooq.meta.jaxb.Property
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+import org.springframework.boot.gradle.tasks.run.BootRun
 
 val libsCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
@@ -42,7 +44,6 @@ dependencies {
     implementation(libs.springdoc.openapi.webmvc.ui)
     implementation(libs.uuid.generator)
     jooqGenerator(libs.jooq.meta.extensions)
-    developmentOnly(libs.spring.boot.docker.compose)
     runtimeOnly(libs.postgresql)
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.kotlin.test.junit5)
@@ -145,4 +146,24 @@ tasks.register<Test>("intTest") {
         events("passed", "skipped", "failed")
         showStandardStreams = true
     }
+}
+
+springBoot {
+    mainClass.set("com.example.bookmanager.BookmanagerApplicationKt")
+}
+
+tasks.register<BootRun>("bootRunBatch") {
+    description = "Runs the book update batch without a web server."
+    group = "application"
+    mainClass.set("com.example.bookmanager.bootstrap.batch.BookUpdateBatchApplicationKt")
+    classpath = sourceSets.main.get().runtimeClasspath
+}
+
+tasks.register<BootJar>("bootJarBatch") {
+    description = "Builds the executable book update batch jar."
+    group = "build"
+    mainClass.set("com.example.bookmanager.bootstrap.batch.BookUpdateBatchApplicationKt")
+    archiveClassifier.set("batch")
+    targetJavaVersion.set(java.targetCompatibility)
+    classpath(sourceSets.main.get().runtimeClasspath)
 }

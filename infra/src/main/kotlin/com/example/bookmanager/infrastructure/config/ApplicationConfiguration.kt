@@ -1,26 +1,19 @@
 package com.example.bookmanager.infrastructure.config
 
-import com.example.bookmanager.application.port.inbound.GetBookInputPort
 import com.example.bookmanager.application.port.inbound.RegisterAuthorCommand
 import com.example.bookmanager.application.port.inbound.RegisterAuthorInputPort
 import com.example.bookmanager.application.port.inbound.RegisterBookCommand
 import com.example.bookmanager.application.port.inbound.RegisterBookInputPort
-import com.example.bookmanager.application.port.inbound.RunBookUpdateBatchJobInputPort
 import com.example.bookmanager.application.port.inbound.UpdateBookCommand
 import com.example.bookmanager.application.port.inbound.UpdateBookInputPort
 import com.example.bookmanager.application.port.outbound.AuthorQueryRepository
 import com.example.bookmanager.application.port.outbound.AuthorRepository
 import com.example.bookmanager.application.port.outbound.BookQueryRepository
 import com.example.bookmanager.application.port.outbound.BookRepository
-import com.example.bookmanager.application.port.outbound.IdempotencyRepository
-import com.example.bookmanager.application.port.outbound.MessagePoller
-import com.example.bookmanager.application.port.outbound.RemoteStorage
-import com.example.bookmanager.application.port.outbound.TaskNotifier
 import com.example.bookmanager.application.service.AuthorDomainService
 import com.example.bookmanager.application.usecase.GetBookUseCase
 import com.example.bookmanager.application.usecase.RegisterAuthorUseCase
 import com.example.bookmanager.application.usecase.RegisterBookUseCase
-import com.example.bookmanager.application.usecase.RunBookUpdateBatchJobUseCase
 import com.example.bookmanager.application.usecase.SearchAuthorUseCase
 import com.example.bookmanager.application.usecase.SearchBookUseCase
 import com.example.bookmanager.application.usecase.UpdateBookUseCase
@@ -68,16 +61,6 @@ class ApplicationConfiguration {
     @Bean fun searchBookUseCase(bookQueryRepository: BookQueryRepository) = SearchBookUseCase(bookQueryRepository)
 
     @Bean fun searchAuthorUseCase(authorQueryRepository: AuthorQueryRepository) = SearchAuthorUseCase(authorQueryRepository)
-
-    @Bean fun runBookUpdateBatchJobInputPort(
-        messagePoller: MessagePoller,
-        idempotencyRepository: IdempotencyRepository,
-        taskNotifier: TaskNotifier,
-        getBook: GetBookInputPort,
-        updateBook: UpdateBookInputPort,
-        storage: RemoteStorage,
-    ): RunBookUpdateBatchJobInputPort =
-        RunBookUpdateBatchJobUseCase(messagePoller, idempotencyRepository, taskNotifier, getBook, updateBook, storage)
 }
 
 private class TransactionalRegisterAuthorInputPort(

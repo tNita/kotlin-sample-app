@@ -1,4 +1,4 @@
-package com.example.bookmanager.infrastructure.inbound.messaging
+package com.example.bookmanager.infrastructure.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper

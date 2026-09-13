@@ -1,6 +1,8 @@
 package com.example.bookmanager.infrastructure.inbound.rest.integration.book
 
+import com.example.bookmanager.bootstrap.batch.BookUpdateBatchApplication
 import com.example.bookmanager.domain.PublishStatus
+import com.example.bookmanager.infrastructure.inbound.job.BookUpdateBatchJobRunner
 import com.example.bookmanager.support.book.BookSeedIds
 import com.example.bookmanager.support.book.seedDefaultBooks
 import com.example.bookmanager.support.db.IntegrationTestSupport
@@ -16,6 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPat
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
+import kotlin.test.assertTrue
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -25,6 +28,12 @@ class BookFindApiIntegrationTest : IntegrationTestSupport() {
 
     private lateinit var mockMvc: MockMvc
     private lateinit var ids: BookSeedIds
+
+    @Test
+    fun `API起動ではバッチの起動設定とRunnerを読み込まない`() {
+        assertTrue(context.getBeansOfType(BookUpdateBatchApplication::class.java).isEmpty())
+        assertTrue(context.getBeansOfType(BookUpdateBatchJobRunner::class.java).isEmpty())
+    }
 
     @BeforeEach
     fun setup() {

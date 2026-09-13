@@ -1,5 +1,0 @@
-bookmanager:
-  idempotency:
-    ttl: ${BOOKMANAGER_IDEMPOTENCY_TTL:PT1H}
-  book-update-batch:
-    enabled: ${BOOK_UPDATE_BATCH_ENABLED:false}

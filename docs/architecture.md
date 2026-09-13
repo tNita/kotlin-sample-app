@@ -4,7 +4,7 @@
 - 書籍管理という限定的な要件のため、モノリシックアーキテクチャを採用する
 - ローカル環境 
   - アプリケーションと PostgreSQL は 個別コンテナとして実行する 
-  - Docker Compose により複数コンテナ（アプリ・DB）の起動・依存関係を管理する
+  - Docker Compose はローカル環境を構築するための任意の手段とする。アプリケーションは Docker に依存せず、設定された DB・外部サービスへ接続する
 
 ## ソフトウェアアーキテクチャ
 - Clean Architecture を採用
@@ -65,3 +65,11 @@ graph RL
 - REST 原則に従う（リソース指向、HTTP メソッドの意味付け）
 - HATEOAS は必須ではない
 - URI パターン・命名・レスポンス形式は既存 API と整合させる
+
+### API とバッチの起動分離
+
+同じ `infra` モジュールで、API は `BookManagerApplication`、バッチは
+`bootstrap/batch/BookUpdateBatchApplication` を起動します。
+API は `inbound/rest`・`inbound/messaging`・`config`・`outbound` をスキャンします。
+バッチは `config`・`outbound` をスキャンし、バッチ用のユースケース設定と Runner を明示的に import します。
+バッチは Web を無効化し、Runner が保持する終了コードを main 関数でプロセスの終了コードに変換します。

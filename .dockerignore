@@ -3,3 +3,6 @@ build
 .git
 .idea
 *.iml
+
+**/build
+.kotlin
