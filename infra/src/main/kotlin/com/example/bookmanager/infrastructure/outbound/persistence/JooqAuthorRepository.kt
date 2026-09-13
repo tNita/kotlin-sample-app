@@ -28,6 +28,15 @@ class JooqAuthorRepository(
         return author
     }
 
+    override fun update(author: Author): Author {
+        dsl
+            .update(AUTHORS)
+            .set(AUTHORS.AFFILIATION, author.affiliation.value)
+            .where(AUTHORS.ID.eq(author.id.value))
+            .execute()
+        return author
+    }
+
     override fun findById(id: AuthorId): Author? =
         dsl
             .selectFrom(AUTHORS)

@@ -1,9 +1,8 @@
 package com.example.bookmanager.infrastructure.inbound.rest.integration.book
 
-import com.example.bookmanager.application.port.inbound.RunBookUpdateBatchJobInputPort
 import com.example.bookmanager.bootstrap.batch.BatchApplication
 import com.example.bookmanager.domain.PublishStatus
-import com.example.bookmanager.infrastructure.inbound.job.BookUpdateBatchJobRunner
+import com.example.bookmanager.infrastructure.inbound.job.BatchJobRunner
 import com.example.bookmanager.support.book.BookSeedIds
 import com.example.bookmanager.support.book.seedDefaultBooks
 import com.example.bookmanager.support.db.IntegrationTestSupport
@@ -33,8 +32,7 @@ class BookFindApiIntegrationTest : IntegrationTestSupport() {
     @Test
     fun `API起動ではバッチの起動設定とRunnerを読み込まない`() {
         assertTrue(context.getBeansOfType(BatchApplication::class.java).isEmpty())
-        assertTrue(context.getBeansOfType(BookUpdateBatchJobRunner::class.java).isEmpty())
-        assertTrue(context.getBeansOfType(RunBookUpdateBatchJobInputPort::class.java).isEmpty())
+        assertTrue(context.getBeansOfType(BatchJobRunner::class.java).isEmpty())
     }
 
     @BeforeEach
