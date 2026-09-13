@@ -21,7 +21,6 @@ import java.util.UUID
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 class AuthorRegisterApiIntegrationTest : IntegrationTestSupport() {
-
     @Autowired
     private lateinit var context: WebApplicationContext
 
@@ -34,32 +33,35 @@ class AuthorRegisterApiIntegrationTest : IntegrationTestSupport() {
 
     @Test
     fun `POST 著者を登録できる`() {
-        val request = RegisterAuthorRequest(
-            name = "正岡子規",
-            birthDate = LocalDate.parse("1867-10-14"),
-        )
+        val request =
+            RegisterAuthorRequest(
+                name = "正岡子規",
+                birthDate = LocalDate.parse("1867-10-14"),
+            )
 
-        val mvcResult = mockMvc.perform(
-            post("/api/authors")
-                .contentType("application/json")
-                .content(
-                    """
-                    {
-                      "name": "${request.name}",
-                      "birthDate": "${request.birthDate}"
-                    }
-                    """.trimIndent()
-                ),
-        )
-            .andExpect(status().isCreated)
-            .andExpect(content().contentTypeCompatibleWith("application/json"))
-            .andExpect(jsonPath("$.name").value(request.name))
-            .andExpect(jsonPath("$.birthDate").value(request.birthDate.toString()))
-            .andReturn()
+        val mvcResult =
+            mockMvc
+                .perform(
+                    post("/api/authors")
+                        .contentType("application/json")
+                        .content(
+                            """
+                            {
+                              "name": "${request.name}",
+                              "birthDate": "${request.birthDate}"
+                            }
+                            """.trimIndent(),
+                        ),
+                ).andExpect(status().isCreated)
+                .andExpect(content().contentTypeCompatibleWith("application/json"))
+                .andExpect(jsonPath("$.name").value(request.name))
+                .andExpect(jsonPath("$.birthDate").value(request.birthDate.toString()))
+                .andReturn()
 
         val createdId = mvcResult.response.contentAsString.let { parseId(it) }
 
-        mockMvc.perform(get("/api/authors/search").param("id", createdId.toString()))
+        mockMvc
+            .perform(get("/api/authors/search").param("id", createdId.toString()))
             .andExpect(status().isOk)
             .andExpect(jsonPath("$[0].id").value(createdId.toString()))
             .andExpect(jsonPath("$[0].name").value(request.name))
@@ -69,7 +71,9 @@ class AuthorRegisterApiIntegrationTest : IntegrationTestSupport() {
     private fun parseId(json: String): UUID =
         UUID.fromString(
             Regex("\"id\"\\s*:\\s*\"([^\"]+)\"")
-                .find(json)?.groupValues?.get(1)
-                ?: error("id not found in json: $json")
+                .find(json)
+                ?.groupValues
+                ?.get(1)
+                ?: error("id not found in json: $json"),
         )
 }

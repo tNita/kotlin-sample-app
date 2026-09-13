@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 import java.time.LocalDate
 
 class AuthorTest {
-
     @Test
     fun `名前と生年月日が同じなら同一人物とみなす`() {
         val sameName = AuthorName.of("Same")

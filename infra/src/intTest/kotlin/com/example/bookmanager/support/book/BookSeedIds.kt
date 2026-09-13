@@ -32,7 +32,7 @@ fun seedDefaultBooks(dsl: DSLContext): BookSeedIds {
             title = "吾輩は猫である",
             price = BigDecimal("1200.00"),
             publishStatus = PublishStatus.PUBLISHED,
-        )
+        ),
     )
     dsl.insert(
         BookFixture(
@@ -40,7 +40,7 @@ fun seedDefaultBooks(dsl: DSLContext): BookSeedIds {
             title = "羅生門",
             price = BigDecimal("900.00"),
             publishStatus = PublishStatus.UNPUBLISHED,
-        )
+        ),
     )
     dsl.insert(BookAuthorFixture(bookId = bookId1, authorId = author1.id))
     dsl.insert(BookAuthorFixture(bookId = bookId2, authorId = author2.id))

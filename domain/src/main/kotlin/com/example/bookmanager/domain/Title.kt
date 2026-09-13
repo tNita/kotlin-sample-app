@@ -6,7 +6,9 @@ import kotlin.jvm.JvmInline
  * 書籍タイトルの値オブジェクト。
  */
 @JvmInline
-value class Title private constructor(val value: String) {
+value class Title private constructor(
+    val value: String,
+) {
     companion object {
         private const val MAX_LENGTH = 255
 

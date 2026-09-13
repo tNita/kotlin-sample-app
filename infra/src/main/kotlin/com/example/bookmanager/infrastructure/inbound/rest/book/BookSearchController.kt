@@ -28,15 +28,19 @@ class BookSearchController(
             io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "200",
                 description = "取得成功",
-                content = [io.swagger.v3.oas.annotations.media.Content(
-                    array = ArraySchema(schema = Schema(implementation = BookDetailResponse::class))
-                )],
+                content = [
+                    io.swagger.v3.oas.annotations.media.Content(
+                        array = ArraySchema(schema = Schema(implementation = BookDetailResponse::class)),
+                    ),
+                ],
             ),
-            io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "リクエスト不正"),
+            io.swagger.v3.oas.annotations.responses
+                .ApiResponse(responseCode = "400", description = "リクエスト不正"),
         ],
     )
     fun search(
         @Parameter(description = "著者名（完全一致）", example = "夏目漱石")
-        @RequestParam @NotBlank authorName: String,
+        @RequestParam
+        @NotBlank authorName: String,
     ): List<BookDetailResponse> = searchBookUseCase.execute(authorName).map(QueryBookOutput::toDetailResponse)
 }

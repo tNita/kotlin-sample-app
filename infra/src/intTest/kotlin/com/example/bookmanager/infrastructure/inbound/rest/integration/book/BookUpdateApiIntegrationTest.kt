@@ -37,19 +37,20 @@ class BookUpdateApiIntegrationTest : IntegrationTestSupport() {
 
     @Test
     fun `PUT 書籍を更新できる`() {
-        val request = UpdateBookRequest(
-            title = "改訂版 羅生門",
-            price = BigDecimal("1800.00"),
-            publishStatus = PublishStatus.PUBLISHED,
-            authorIds = listOf(ids.authorId2),
-        )
+        val request =
+            UpdateBookRequest(
+                title = "改訂版 羅生門",
+                price = BigDecimal("1800.00"),
+                publishStatus = PublishStatus.PUBLISHED,
+                authorIds = listOf(ids.authorId2),
+            )
 
-        mockMvc.perform(
-            put("/api/books/{id}", ids.bookId2)
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsBytes(request)),
-        )
-            .andExpect(status().isOk)
+        mockMvc
+            .perform(
+                put("/api/books/{id}", ids.bookId2)
+                    .contentType("application/json")
+                    .content(objectMapper.writeValueAsBytes(request)),
+            ).andExpect(status().isOk)
             .andExpect(jsonPath("$.id").value(ids.bookId2.toString()))
             .andExpect(jsonPath("$.title").value("改訂版 羅生門"))
             .andExpect(jsonPath("$.price").value(1800.0))

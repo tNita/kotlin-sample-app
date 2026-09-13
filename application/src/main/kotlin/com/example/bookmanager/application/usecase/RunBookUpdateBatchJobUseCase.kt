@@ -3,13 +3,13 @@ package com.example.bookmanager.application.usecase
 import com.example.bookmanager.application.port.inbound.GetBookInputPort
 import com.example.bookmanager.application.port.inbound.RunBookUpdateBatchJobInputPort
 import com.example.bookmanager.application.port.inbound.RunBookUpdateBatchJobInputPort.UpdateTaskData
-import com.example.bookmanager.application.port.outbound.BookUpdateBatchLineResult
 import com.example.bookmanager.application.port.inbound.UpdateBookCommand
 import com.example.bookmanager.application.port.inbound.UpdateBookInputPort
-import com.example.bookmanager.application.port.outbound.RawBookUpdateBatchLine
-import com.example.bookmanager.application.port.outbound.RemoteStorage
+import com.example.bookmanager.application.port.outbound.BookUpdateBatchLineResult
 import com.example.bookmanager.application.port.outbound.IdempotencyRepository
 import com.example.bookmanager.application.port.outbound.MessagePoller
+import com.example.bookmanager.application.port.outbound.RawBookUpdateBatchLine
+import com.example.bookmanager.application.port.outbound.RemoteStorage
 import com.example.bookmanager.application.port.outbound.TaskNotified
 import com.example.bookmanager.application.port.outbound.TaskNotifier
 import com.example.bookmanager.domain.PublishStatus
@@ -40,15 +40,14 @@ class RunBookUpdateBatchJobUseCase(
                     taskNotifier.execute(
                         TaskNotified.Failure(
                             message.taskToken,
-                            exception.message ?: "書籍一括更新に失敗しました"
-                        )
+                            exception.message ?: "書籍一括更新に失敗しました",
+                        ),
                     )
                 }
                 throw exception
             }
         }
     }
-
 
     private fun process(data: UpdateTaskData) {
         storage.openInput(data.inputFilePath).use { input ->
@@ -76,6 +75,5 @@ class RunBookUpdateBatchJobUseCase(
         )
     }
 
-    private fun outputFilePath(data: UpdateTaskData) =
-        "${data.outputDirectoryPath.trimEnd('/')}/book-update-result-${data.id}.jsonl"
+    private fun outputFilePath(data: UpdateTaskData) = "${data.outputDirectoryPath.trimEnd('/')}/book-update-result-${data.id}.jsonl"
 }

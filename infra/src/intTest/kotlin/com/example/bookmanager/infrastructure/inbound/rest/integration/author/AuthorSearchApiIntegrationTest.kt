@@ -17,7 +17,6 @@ import org.springframework.web.context.WebApplicationContext
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 class AuthorSearchApiIntegrationTest : IntegrationTestSupport() {
-
     @Autowired
     private lateinit var context: WebApplicationContext
 
@@ -32,11 +31,12 @@ class AuthorSearchApiIntegrationTest : IntegrationTestSupport() {
 
     @Test
     fun `GET 著者名部分一致で著者を検索できる`() {
-        mockMvc.perform(
-            MockMvcRequestBuilders.get("/api/authors/search")
-                .param("name", "漱石"),
-        )
-            .andExpect(MockMvcResultMatchers.status().isOk)
+        mockMvc
+            .perform(
+                MockMvcRequestBuilders
+                    .get("/api/authors/search")
+                    .param("name", "漱石"),
+            ).andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith("application/json"))
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("夏目漱石"))
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].birthDate").value("1867-02-09"))
@@ -45,11 +45,12 @@ class AuthorSearchApiIntegrationTest : IntegrationTestSupport() {
     @Test
     fun `GET 著者IDで著者を検索できる`() {
         val author = AuthorFixture.Companion.akutagawa()
-        mockMvc.perform(
-            MockMvcRequestBuilders.get("/api/authors/search")
-                .param("id", author.id.toString()),
-        )
-            .andExpect(MockMvcResultMatchers.status().isOk)
+        mockMvc
+            .perform(
+                MockMvcRequestBuilders
+                    .get("/api/authors/search")
+                    .param("id", author.id.toString()),
+            ).andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith("application/json"))
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(author.id.toString()))
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(author.name))

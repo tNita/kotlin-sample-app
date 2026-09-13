@@ -57,7 +57,8 @@ class AuthorRegistrationSqsIntegrationConfig(
         val adapter = SqsMessageDrivenChannelAdapter(sqsAsyncClient, queueName)
         adapter.setOutputChannelName(AUTHOR_REGISTRATION_INPUT_CHANNEL)
         adapter.setSqsContainerOptions(
-            SqsContainerOptions.builder()
+            SqsContainerOptions
+                .builder()
                 .queueNotFoundStrategy(QueueNotFoundStrategy.FAIL)
                 .acknowledgementMode(AcknowledgementMode.ON_SUCCESS)
                 .maxMessagesPerPoll(10)

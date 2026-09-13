@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.context.request.WebRequest
 
 class RestExceptionHandlerTest {
-
     private val handler = RestExceptionHandler()
 
     @Test

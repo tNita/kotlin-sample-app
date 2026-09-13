@@ -21,7 +21,6 @@ import java.util.UUID
 class AuthorSearchController(
     private val searchAuthorUseCase: SearchAuthorInputPort,
 ) {
-
     @GetMapping("/search")
     @Operation(
         summary = "著者名で著者を検索",
@@ -29,9 +28,11 @@ class AuthorSearchController(
             ApiResponse(
                 responseCode = "200",
                 description = "取得成功",
-                content = [io.swagger.v3.oas.annotations.media.Content(
-                    array = ArraySchema(schema = Schema(implementation = AuthorResponse::class))
-                )],
+                content = [
+                    io.swagger.v3.oas.annotations.media.Content(
+                        array = ArraySchema(schema = Schema(implementation = AuthorResponse::class)),
+                    ),
+                ],
             ),
             ApiResponse(responseCode = "400", description = "リクエスト不正"),
         ],
@@ -41,6 +42,5 @@ class AuthorSearchController(
         @RequestParam(required = false) id: UUID?,
         @Parameter(description = "著者名（部分一致検索）", example = "漱石")
         @RequestParam(required = false) name: String?,
-    ): List<AuthorResponse> =
-        searchAuthorUseCase.execute(id = id, name = name).map { it.toResponse() }
+    ): List<AuthorResponse> = searchAuthorUseCase.execute(id = id, name = name).map { it.toResponse() }
 }

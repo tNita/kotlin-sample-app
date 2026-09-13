@@ -9,5 +9,6 @@ import com.example.bookmanager.domain.BookId
  */
 interface BookQueryRepository {
     fun findById(id: BookId): BookView?
+
     fun findByAuthorName(authorName: AuthorName): List<BookView>
 }

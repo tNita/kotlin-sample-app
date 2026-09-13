@@ -20,6 +20,8 @@
 - 前提: JDK 21、Docker (PostgreSQL / SQS を起動する場合)
 - 単体テスト: `./gradlew test`
 - 統合テスト: `./gradlew intTest`
+- コードスタイル検査: `./gradlew ktlintCheck`
+- 自動整形: `./gradlew ktlintFormat`
 - DB / SQS 起動: `docker compose up -d postgres ministack`
 - アプリ起動: `./gradlew :infra:bootRun`（DB が起動していること）
 - Docker で全体起動: `docker compose --profile app up --build`
@@ -69,5 +71,4 @@ aws --endpoint-url=http://localhost:4566 sqs send-message \
 依存方向は `infra → application → domain → shared` です。実行可能なアプリケーションと統合テストは `infra` に配置しています。
 
 ## TODO
-- フォーマッター・リンターの導入
 - jOOQのKotlinコード自動生成設定

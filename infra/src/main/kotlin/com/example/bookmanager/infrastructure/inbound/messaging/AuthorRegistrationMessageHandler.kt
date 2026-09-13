@@ -16,12 +16,13 @@ class AuthorRegistrationMessageHandler(
     private val logger = LoggerFactory.getLogger(AuthorRegistrationMessageHandler::class.java)
 
     override fun handle(message: AuthorRegistrationMessage) {
-        val registered = registerAuthorUseCase.execute(
-            RegisterAuthorCommand(
-                name = message.name,
-                birthDate = message.birthDate,
-            ),
-        )
+        val registered =
+            registerAuthorUseCase.execute(
+                RegisterAuthorCommand(
+                    name = message.name,
+                    birthDate = message.birthDate,
+                ),
+            )
         logger.info("著者登録メッセージを処理しました: authorId={}", registered.id)
     }
 }

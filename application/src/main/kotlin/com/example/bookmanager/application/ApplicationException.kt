@@ -6,10 +6,12 @@ package com.example.bookmanager.application
 enum class ApplicationErrorType {
     NOT_FOUND,
     CONFLICT,
-    INVALID_REQUEST
+    INVALID_REQUEST,
 }
 
-enum class ApplicationErrorCode(val type: ApplicationErrorType) {
+enum class ApplicationErrorCode(
+    val type: ApplicationErrorType,
+) {
     AUTHOR_NOT_FOUND(ApplicationErrorType.NOT_FOUND),
     BOOK_NOT_FOUND(ApplicationErrorType.NOT_FOUND),
     INVALID_REQUEST(ApplicationErrorType.INVALID_REQUEST),
@@ -17,5 +19,5 @@ enum class ApplicationErrorCode(val type: ApplicationErrorType) {
 
 class ApplicationException(
     val code: ApplicationErrorCode,
-    override val message: String
+    override val message: String,
 ) : RuntimeException(message)

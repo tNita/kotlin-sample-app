@@ -34,7 +34,6 @@ import java.util.concurrent.TimeUnit
 )
 @ContextConfiguration(initializers = [AuthorRegistrationSqsEndToEndIntegrationTest.QueueInitializer::class])
 class AuthorRegistrationSqsEndToEndIntegrationTest : IntegrationTestSupport() {
-
     @Autowired
     private lateinit var sqsAsyncClient: SqsAsyncClient
 
@@ -64,24 +63,32 @@ class AuthorRegistrationSqsEndToEndIntegrationTest : IntegrationTestSupport() {
     }
 
     private fun sendMessage(body: String) {
-        val queueUrl = sqsAsyncClient.getQueueUrl(
-            GetQueueUrlRequest.builder()
-                .queueName(QUEUE_NAME)
-                .build(),
-        ).get(5, TimeUnit.SECONDS).queueUrl()
+        val queueUrl =
+            sqsAsyncClient
+                .getQueueUrl(
+                    GetQueueUrlRequest
+                        .builder()
+                        .queueName(QUEUE_NAME)
+                        .build(),
+                ).get(5, TimeUnit.SECONDS)
+                .queueUrl()
 
-        sqsAsyncClient.sendMessage(
-            SendMessageRequest.builder()
-                .queueUrl(queueUrl)
-                .messageBody(body)
-                .build(),
-        ).get(5, TimeUnit.SECONDS)
+        sqsAsyncClient
+            .sendMessage(
+                SendMessageRequest
+                    .builder()
+                    .queueUrl(queueUrl)
+                    .messageBody(body)
+                    .build(),
+            ).get(5, TimeUnit.SECONDS)
     }
 
     private fun metadataCount(metadataKey: String): Int =
         dsl.fetchCount(
             DSL.table("int_metadata_store"),
-            DSL.field("metadata_key", String::class.java).eq(metadataKey)
+            DSL
+                .field("metadata_key", String::class.java)
+                .eq(metadataKey)
                 .and(DSL.field("region", String::class.java).eq("author-registration")),
         )
 
@@ -98,18 +105,19 @@ class AuthorRegistrationSqsEndToEndIntegrationTest : IntegrationTestSupport() {
 
     class QueueInitializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
         override fun initialize(applicationContext: ConfigurableApplicationContext) {
-            SqsClient.builder()
+            SqsClient
+                .builder()
                 .endpointOverride(URI.create(awsEndpoint()))
                 .region(Region.of(awsRegion()))
                 .credentialsProvider(
                     StaticCredentialsProvider.create(
                         AwsBasicCredentials.create("test", "test"),
                     ),
-                )
-                .build()
+                ).build()
                 .use { client ->
                     client.createQueue(
-                        CreateQueueRequest.builder()
+                        CreateQueueRequest
+                            .builder()
                             .queueName(QUEUE_NAME)
                             .build(),
                     )
@@ -120,10 +128,8 @@ class AuthorRegistrationSqsEndToEndIntegrationTest : IntegrationTestSupport() {
     companion object {
         private const val QUEUE_NAME = "bookmanager-author-registration"
 
-        private fun awsEndpoint(): String =
-            System.getenv("SPRING_CLOUD_AWS_ENDPOINT") ?: "http://localhost:4566"
+        private fun awsEndpoint(): String = System.getenv("SPRING_CLOUD_AWS_ENDPOINT") ?: "http://localhost:4566"
 
-        private fun awsRegion(): String =
-            System.getenv("SPRING_CLOUD_AWS_REGION_STATIC") ?: "ap-northeast-1"
+        private fun awsRegion(): String = System.getenv("SPRING_CLOUD_AWS_REGION_STATIC") ?: "ap-northeast-1"
     }
 }

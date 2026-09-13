@@ -11,17 +11,19 @@ data class AuthorFixture(
     val birthDate: LocalDate,
 ) {
     companion object {
-        fun natsume(): AuthorFixture = AuthorFixture(
-            id = UUID.fromString("01890a3f-54c1-7f1e-8b10-cbc61ff35f4e"),
-            name = "夏目漱石",
-            birthDate = LocalDate.parse("1867-02-09"),
-        )
+        fun natsume(): AuthorFixture =
+            AuthorFixture(
+                id = UUID.fromString("01890a3f-54c1-7f1e-8b10-cbc61ff35f4e"),
+                name = "夏目漱石",
+                birthDate = LocalDate.parse("1867-02-09"),
+            )
 
-        fun akutagawa(): AuthorFixture = AuthorFixture(
-            id = UUID.fromString("01890a3f-54c1-7f1e-8b10-cbc61ff35f4f"),
-            name = "芥川龍之介",
-            birthDate = LocalDate.parse("1892-03-01"),
-        )
+        fun akutagawa(): AuthorFixture =
+            AuthorFixture(
+                id = UUID.fromString("01890a3f-54c1-7f1e-8b10-cbc61ff35f4f"),
+                name = "芥川龍之介",
+                birthDate = LocalDate.parse("1892-03-01"),
+            )
     }
 }
 

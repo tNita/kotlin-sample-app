@@ -1,6 +1,7 @@
 # コーディングルール
 
 - [Google の Kotlin スタイルガイド](https://developer.android.com/kotlin/style-guide)に準拠する
+- コードスタイルの検査と自動整形には ktlint を使用する（検査: `./gradlew ktlintCheck`、整形: `./gradlew ktlintFormat`）
 - 既存コードの命名・パッケージ構成・テスト構成に合わせる
 - 不変条件やビジネスルールはコメントではなくドメインロジックで表現する
 - 型と値オブジェクトを活用し、「不正な状態を作れない」設計を優先する

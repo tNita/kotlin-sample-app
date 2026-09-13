@@ -14,7 +14,6 @@ interface RunBookUpdateBatchJobInputPort {
             val TASK_TYPE = TaskType("bookmanager-book-update-batch", UpdateTaskData::class.java)
         }
     }
-
 }
 
 data class TaskType<T : Any>(

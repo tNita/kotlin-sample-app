@@ -10,14 +10,14 @@ data class Book(
     val title: Title,
     val price: Price,
     val publishStatus: PublishStatus = PublishStatus.UNPUBLISHED,
-    val authorIds: Set<Id>
+    val authorIds: Set<Id>,
 ) {
     companion object {
         fun create(
             title: Title,
             price: Price,
             publishStatus: PublishStatus = PublishStatus.UNPUBLISHED,
-            authorIds: Collection<Id>
+            authorIds: Collection<Id>,
         ): Book {
             if (authorIds.isEmpty()) {
                 throw DomainException(DomainErrorCode.NO_AUTHORS, "Book must have at least one author")
@@ -27,7 +27,7 @@ data class Book(
                 title = title,
                 price = price,
                 publishStatus = publishStatus,
-                authorIds = authorIds.toSet()
+                authorIds = authorIds.toSet(),
             )
         }
 
@@ -36,16 +36,15 @@ data class Book(
             title: Title,
             price: Price,
             publishStatus: PublishStatus,
-            authorIds: Set<Id>
-        ): Book {
-            return Book(
+            authorIds: Set<Id>,
+        ): Book =
+            Book(
                 id = id,
                 title = title,
                 price = price,
                 publishStatus = publishStatus,
-                authorIds = authorIds
+                authorIds = authorIds,
             )
-        }
     }
 
     fun withTitle(newTitle: Title): Book = copy(title = newTitle)
@@ -56,17 +55,13 @@ data class Book(
         if (!publishStatus.canTransitionTo(newStatus)) {
             throw DomainException(
                 DomainErrorCode.INVALID_PUBLISH_STATUS_TRANSITION,
-                "Cannot change publish status from $publishStatus to $newStatus"
+                "Cannot change publish status from $publishStatus to $newStatus",
             )
         }
         return copy(publishStatus = newStatus)
     }
 
-    fun withAuthors(authorIds: Collection<Id>): Book =
-        copy(authorIds = normalizeAuthors(authorIds))
+    fun withAuthors(authorIds: Collection<Id>): Book = copy(authorIds = normalizeAuthors(authorIds))
 }
 
-private fun normalizeAuthors(authorIds: Collection<Id>): Set<Id> {
-
-    return authorIds.toSet()
-}
+private fun normalizeAuthors(authorIds: Collection<Id>): Set<Id> = authorIds.toSet()

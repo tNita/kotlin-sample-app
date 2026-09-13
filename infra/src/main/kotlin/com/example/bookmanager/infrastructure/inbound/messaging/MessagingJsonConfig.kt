@@ -7,8 +7,6 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class MessagingJsonConfig {
-
     @Bean
-    fun objectMapper(): ObjectMapper =
-        jacksonObjectMapper().findAndRegisterModules()
+    fun objectMapper(): ObjectMapper = jacksonObjectMapper().findAndRegisterModules()
 }

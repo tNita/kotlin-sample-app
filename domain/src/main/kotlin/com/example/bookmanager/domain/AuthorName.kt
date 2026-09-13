@@ -6,7 +6,9 @@ import kotlin.jvm.JvmInline
  * 著者名の値オブジェクト。
  */
 @JvmInline
-value class AuthorName private constructor(val value: String) {
+value class AuthorName private constructor(
+    val value: String,
+) {
     companion object {
         private const val MAX_LENGTH = 255
 

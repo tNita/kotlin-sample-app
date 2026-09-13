@@ -6,14 +6,14 @@ import java.time.LocalDate
 import kotlin.test.assertEquals
 
 class AuthorRegistrationSqsMessageReceiverTest {
-
     @Test
     fun `SQSメッセージ本文を著者登録メッセージに変換してハンドラへ渡す`() {
         val handler = RecordingAuthorRegistrationMessageConsumer()
-        val receiver = AuthorRegistrationSqsMessageReceiver(
-            objectMapper = jacksonObjectMapper().findAndRegisterModules(),
-            handler = handler,
-        )
+        val receiver =
+            AuthorRegistrationSqsMessageReceiver(
+                objectMapper = jacksonObjectMapper().findAndRegisterModules(),
+                handler = handler,
+            )
 
         receiver.receive("""{"name":"宮沢賢治","birthDate":"1896-08-27"}""")
 

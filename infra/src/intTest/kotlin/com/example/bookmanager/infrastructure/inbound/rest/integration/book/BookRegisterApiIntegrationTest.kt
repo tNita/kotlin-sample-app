@@ -40,30 +40,33 @@ class BookRegisterApiIntegrationTest : IntegrationTestSupport() {
 
     @Test
     fun `POST 書籍を登録できる`() {
-        val request = RegisterBookRequest(
-            title = "こころ",
-            price = BigDecimal("1500.00"),
-            publishStatus = PublishStatus.UNPUBLISHED,
-            authorIds = listOf(ids.authorId1, ids.authorId2),
-        )
+        val request =
+            RegisterBookRequest(
+                title = "こころ",
+                price = BigDecimal("1500.00"),
+                publishStatus = PublishStatus.UNPUBLISHED,
+                authorIds = listOf(ids.authorId1, ids.authorId2),
+            )
 
-        val mvcResult = mockMvc.perform(
-            post("/api/books")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsBytes(request)),
-        )
-            .andExpect(status().isCreated)
-            .andExpect(content().contentTypeCompatibleWith("application/json"))
-            .andExpect(jsonPath("$.title").value("こころ"))
-            .andExpect(jsonPath("$.price").value(1500.0))
-            .andExpect(jsonPath("$.publishStatus").value(PublishStatus.UNPUBLISHED.name))
-            .andExpect(jsonPath("$.authorIds[0]").value(ids.authorId1.toString()))
-            .andExpect(jsonPath("$.authorIds[1]").value(ids.authorId2.toString()))
-            .andReturn()
+        val mvcResult =
+            mockMvc
+                .perform(
+                    post("/api/books")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsBytes(request)),
+                ).andExpect(status().isCreated)
+                .andExpect(content().contentTypeCompatibleWith("application/json"))
+                .andExpect(jsonPath("$.title").value("こころ"))
+                .andExpect(jsonPath("$.price").value(1500.0))
+                .andExpect(jsonPath("$.publishStatus").value(PublishStatus.UNPUBLISHED.name))
+                .andExpect(jsonPath("$.authorIds[0]").value(ids.authorId1.toString()))
+                .andExpect(jsonPath("$.authorIds[1]").value(ids.authorId2.toString()))
+                .andReturn()
 
         val createdId = mvcResult.response.contentAsString.let { parseId(it) }
 
-        mockMvc.perform(get("/api/books/{id}", createdId))
+        mockMvc
+            .perform(get("/api/books/{id}", createdId))
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.title").value("こころ"))
             .andExpect(jsonPath("$.price").value(1500.0))

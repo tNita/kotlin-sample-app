@@ -14,5 +14,8 @@ data class RegisterAuthorCommand(
 )
 
 interface SearchAuthorInputPort {
-    fun execute(id: UUID?, name: String?): List<AuthorResult>
+    fun execute(
+        id: UUID?,
+        name: String?,
+    ): List<AuthorResult>
 }

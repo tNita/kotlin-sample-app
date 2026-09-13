@@ -8,20 +8,25 @@ import com.example.bookmanager.shared.Id
 data class Author(
     val id: Id,
     val name: AuthorName,
-    val birthDate: BirthDate
+    val birthDate: BirthDate,
 ) {
     companion object {
-        fun create(name: AuthorName, birthDate: BirthDate): Author =
+        fun create(
+            name: AuthorName,
+            birthDate: BirthDate,
+        ): Author =
             Author(
                 id = Id.generate(),
                 name = name,
-                birthDate = birthDate
+                birthDate = birthDate,
             )
 
-        fun ofExisting(id: Id, name: AuthorName, birthDate: BirthDate): Author =
-            Author(id = id, name = name, birthDate = birthDate)
+        fun ofExisting(
+            id: Id,
+            name: AuthorName,
+            birthDate: BirthDate,
+        ): Author = Author(id = id, name = name, birthDate = birthDate)
     }
 
-    fun isSamePerson(other: Author): Boolean =
-        name == other.name && birthDate == other.birthDate
+    fun isSamePerson(other: Author): Boolean = name == other.name && birthDate == other.birthDate
 }

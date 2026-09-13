@@ -5,7 +5,7 @@ package com.example.bookmanager.domain
  */
 class DomainException(
     val code: DomainErrorCode,
-    override val message: String
+    override val message: String,
 ) : IllegalArgumentException(message)
 
 /**
@@ -22,5 +22,5 @@ enum class DomainErrorCode {
     PRICE_NEGATIVE,
     BIRTHDATE_IN_FUTURE,
     NO_AUTHORS,
-    INVALID_PUBLISH_STATUS_TRANSITION
+    INVALID_PUBLISH_STATUS_TRANSITION,
 }

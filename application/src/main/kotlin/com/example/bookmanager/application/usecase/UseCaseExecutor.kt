@@ -1,8 +1,8 @@
 package com.example.bookmanager.application.usecase
 
-import com.example.bookmanager.domain.DomainException
 import com.example.bookmanager.application.ApplicationErrorCode
 import com.example.bookmanager.application.ApplicationException
+import com.example.bookmanager.domain.DomainException
 
 /**
  * ドメイン層の例外をユースケース境界で必ず ApplicationException に変換するラッパー。

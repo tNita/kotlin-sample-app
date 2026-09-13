@@ -9,5 +9,5 @@ import java.util.UUID
 data class AuthorView(
     val id: UUID,
     val name: String,
-    val birthDate: LocalDate
+    val birthDate: LocalDate,
 )

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired
  * 各テスト前にDBをクリーンアップし、継承先で必ず空の状態から開始させる。
  */
 abstract class IntegrationTestSupport {
-
     @Autowired
     protected lateinit var dsl: DSLContext
 

@@ -5,9 +5,8 @@ package com.example.bookmanager.domain
  */
 enum class PublishStatus {
     UNPUBLISHED,
-    PUBLISHED;
+    PUBLISHED,
+    ;
 
-    fun canTransitionTo(target: PublishStatus): Boolean {
-        return !(this == PUBLISHED && target == UNPUBLISHED)
-    }
+    fun canTransitionTo(target: PublishStatus): Boolean = !(this == PUBLISHED && target == UNPUBLISHED)
 }

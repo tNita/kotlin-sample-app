@@ -9,7 +9,9 @@ import java.util.UUID
  * 汎用ID（UUID v7固定）。
  */
 @JvmInline
-value class Id private constructor(val value: UUID) {
+value class Id private constructor(
+    val value: UUID,
+) {
     companion object {
         private val generator = Generators.timeBasedEpochGenerator()
 

@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class PublishStatusTest {
-
     @Test
     fun `未出版から出版済みへ遷移できる`() {
         assertTrue(PublishStatus.UNPUBLISHED.canTransitionTo(PublishStatus.PUBLISHED))

@@ -10,9 +10,8 @@ import com.example.bookmanager.domain.DomainException
  * 著者に関する整合性チェックを担うドメインサービス。
  */
 class AuthorDomainService(
-    private val authorRepository: AuthorRepository
+    private val authorRepository: AuthorRepository,
 ) {
-
     fun ensureNotDuplicated(author: Author) {
         val alreadyExists = authorRepository.findByName(author.name).any { it.isSamePerson(author) }
         if (alreadyExists) {

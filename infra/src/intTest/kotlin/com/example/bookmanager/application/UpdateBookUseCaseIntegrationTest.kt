@@ -3,11 +3,11 @@ package com.example.bookmanager.application
 import com.example.bookmanager.application.usecase.UpdateBookUseCase
 import com.example.bookmanager.domain.AuthorId
 import com.example.bookmanager.domain.PublishStatus
+import com.example.bookmanager.jooq.tables.BookAuthors.BOOK_AUTHORS
+import com.example.bookmanager.jooq.tables.Books.BOOKS
 import com.example.bookmanager.shared.Id
 import com.example.bookmanager.support.book.seedDefaultBooks
 import com.example.bookmanager.support.db.IntegrationTestSupport
-import com.example.bookmanager.jooq.tables.BookAuthors.BOOK_AUTHORS
-import com.example.bookmanager.jooq.tables.Books.BOOKS
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -26,13 +26,14 @@ class UpdateBookUseCaseIntegrationTest : IntegrationTestSupport() {
     fun `書籍を上書き更新できる`() {
         val ids = seedDefaultBooks(dsl)
 
-        val parameter = UpdateBookUseCase.Parameter.from(
-            bookId = ids.bookId2,
-            title = "羅生門 改訂版",
-            price = BigDecimal("1500.00"),
-            publishStatus = PublishStatus.PUBLISHED,
-            authorIds = listOf(ids.authorId1.toAuthorId(), ids.authorId2.toAuthorId()),
-        )
+        val parameter =
+            UpdateBookUseCase.Parameter.from(
+                bookId = ids.bookId2,
+                title = "羅生門 改訂版",
+                price = BigDecimal("1500.00"),
+                publishStatus = PublishStatus.PUBLISHED,
+                authorIds = listOf(ids.authorId1.toAuthorId(), ids.authorId2.toAuthorId()),
+            )
 
         val output = updateBookUseCase.exec(parameter)
 

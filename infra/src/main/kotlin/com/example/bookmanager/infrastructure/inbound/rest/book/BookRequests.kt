@@ -3,14 +3,14 @@ package com.example.bookmanager.infrastructure.inbound.rest.book
 import com.example.bookmanager.application.port.inbound.RegisterBookCommand
 import com.example.bookmanager.application.port.inbound.UpdateBookCommand
 import com.example.bookmanager.domain.AuthorId
-import com.example.bookmanager.shared.Id
 import com.example.bookmanager.domain.PublishStatus
+import com.example.bookmanager.shared.Id
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.DecimalMin
 import jakarta.validation.constraints.Digits
-import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotEmpty
+import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 import java.math.BigDecimal
 import java.util.UUID
@@ -33,12 +33,13 @@ data class RegisterBookRequest(
     @Schema(description = "著者IDの配列", example = "[\"018d1a2e-3b34-780a-a516-8a3f8a4f9a11\"]")
     val authorIds: List<UUID>,
 ) {
-    fun toCommand(): RegisterBookCommand = RegisterBookCommand(
-        title = title,
-        price = price,
-        publishStatus = publishStatus,
-        authorIds = authorIds.toAuthorIds(),
-    )
+    fun toCommand(): RegisterBookCommand =
+        RegisterBookCommand(
+            title = title,
+            price = price,
+            publishStatus = publishStatus,
+            authorIds = authorIds.toAuthorIds(),
+        )
 }
 
 @Schema(description = "書籍更新リクエスト（全項目を上書き）")
@@ -59,14 +60,14 @@ data class UpdateBookRequest(
     @Schema(description = "著者IDの配列", example = "[\"018d1a2e-3b34-780a-a516-8a3f8a4f9a11\"]")
     val authorIds: List<UUID>,
 ) {
-    fun toCommand(bookId: UUID): UpdateBookCommand = UpdateBookCommand(
-        bookId = bookId,
-        title = title,
-        price = price,
-        publishStatus = publishStatus,
-        authorIds = authorIds.toAuthorIds(),
-    )
+    fun toCommand(bookId: UUID): UpdateBookCommand =
+        UpdateBookCommand(
+            bookId = bookId,
+            title = title,
+            price = price,
+            publishStatus = publishStatus,
+            authorIds = authorIds.toAuthorIds(),
+        )
 }
 
-private fun List<UUID>.toAuthorIds(): List<AuthorId> =
-    map { uuid -> Id.generate { uuid } }
+private fun List<UUID>.toAuthorIds(): List<AuthorId> = map { uuid -> Id.generate { uuid } }

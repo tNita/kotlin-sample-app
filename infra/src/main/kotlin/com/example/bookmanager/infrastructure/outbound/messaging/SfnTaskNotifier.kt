@@ -13,12 +13,23 @@ class SfnTaskNotifier(
 ) : TaskNotifier {
     override fun execute(task: TaskNotified) {
         when (task) {
-            is TaskNotified.Success -> sfnClient.sendTaskSuccess(
-                SendTaskSuccessRequest.builder().taskToken(task.token).output("{}").build(),
-            )
-            is TaskNotified.Failure -> sfnClient.sendTaskFailure(
-                SendTaskFailureRequest.builder().taskToken(task.token).error("TaskFailed").cause(task.cause).build(),
-            )
+            is TaskNotified.Success ->
+                sfnClient.sendTaskSuccess(
+                    SendTaskSuccessRequest
+                        .builder()
+                        .taskToken(task.token)
+                        .output("{}")
+                        .build(),
+                )
+            is TaskNotified.Failure ->
+                sfnClient.sendTaskFailure(
+                    SendTaskFailureRequest
+                        .builder()
+                        .taskToken(task.token)
+                        .error("TaskFailed")
+                        .cause(task.cause)
+                        .build(),
+                )
         }
     }
 }

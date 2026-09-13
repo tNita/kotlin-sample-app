@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController
 class AuthorRegisterController(
     private val registerAuthorUseCase: RegisterAuthorInputPort,
 ) {
-
     @PostMapping
     @Operation(
         summary = "著者登録",
@@ -40,12 +39,13 @@ class AuthorRegisterController(
     fun register(
         @Valid @RequestBody request: RegisterAuthorRequest,
     ): ResponseEntity<AuthorResponse> {
-        val created = registerAuthorUseCase.execute(
-            RegisterAuthorCommand(
-                name = request.name,
-                birthDate = request.birthDate,
-            ),
-        )
+        val created =
+            registerAuthorUseCase.execute(
+                RegisterAuthorCommand(
+                    name = request.name,
+                    birthDate = request.birthDate,
+                ),
+            )
         return ResponseEntity.status(HttpStatus.CREATED).body(created.toResponse())
     }
 }

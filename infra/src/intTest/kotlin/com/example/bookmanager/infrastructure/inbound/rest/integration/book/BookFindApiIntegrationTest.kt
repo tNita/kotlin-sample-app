@@ -34,7 +34,8 @@ class BookFindApiIntegrationTest : IntegrationTestSupport() {
 
     @Test
     fun `GET 単一書籍を取得できる`() {
-        mockMvc.perform(get("/api/books/{id}", ids.bookId1))
+        mockMvc
+            .perform(get("/api/books/{id}", ids.bookId1))
             .andExpect(status().isOk)
             .andExpect(content().contentTypeCompatibleWith("application/json"))
             .andExpect(jsonPath("$.id").value(ids.bookId1.toString()))

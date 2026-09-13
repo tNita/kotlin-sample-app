@@ -41,9 +41,10 @@ class SearchAuthorUseCaseIntegrationTest : IntegrationTestSupport() {
 
     @Test
     fun `検索条件がない場合はエラーになる`() {
-        val ex = assertThrows<ApplicationException> {
-            searchAuthorUseCase.exec(id = null, name = null)
-        }
+        val ex =
+            assertThrows<ApplicationException> {
+                searchAuthorUseCase.exec(id = null, name = null)
+            }
         assertThat(ex.code).isEqualTo(ApplicationErrorCode.INVALID_REQUEST)
     }
 }

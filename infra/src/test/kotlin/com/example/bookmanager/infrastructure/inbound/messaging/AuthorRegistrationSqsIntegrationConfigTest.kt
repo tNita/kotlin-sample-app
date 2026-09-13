@@ -8,7 +8,6 @@ import kotlin.test.assertContentEquals
 import kotlin.test.assertIs
 
 class AuthorRegistrationSqsIntegrationConfigTest {
-
     @Test
     fun `SQS Integrationの受信アダプタを既存キュー向けに構成する`() {
         val config = AuthorRegistrationSqsIntegrationConfig("bookmanager-author-registration")

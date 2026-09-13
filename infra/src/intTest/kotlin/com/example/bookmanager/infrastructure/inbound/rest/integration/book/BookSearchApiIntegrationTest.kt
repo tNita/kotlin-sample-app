@@ -33,11 +33,11 @@ class BookSearchApiIntegrationTest : IntegrationTestSupport() {
 
     @Test
     fun `GET 著者名検索で結果が返る`() {
-        mockMvc.perform(
-            get("/api/books/search")
-                .param("authorName", "夏目漱石"),
-        )
-            .andExpect(status().isOk)
+        mockMvc
+            .perform(
+                get("/api/books/search")
+                    .param("authorName", "夏目漱石"),
+            ).andExpect(status().isOk)
             .andExpect(content().contentTypeCompatibleWith("application/json"))
             .andExpect(jsonPath("$[0].id").value(ids.bookId1.toString()))
             .andExpect(jsonPath("$[0].title").value("吾輩は猫である"))

@@ -3,12 +3,12 @@ package com.example.bookmanager.application
 import com.example.bookmanager.application.usecase.RegisterBookUseCase
 import com.example.bookmanager.domain.AuthorId
 import com.example.bookmanager.domain.PublishStatus
+import com.example.bookmanager.jooq.tables.BookAuthors.BOOK_AUTHORS
+import com.example.bookmanager.jooq.tables.Books.BOOKS
 import com.example.bookmanager.shared.Id
 import com.example.bookmanager.support.author.AuthorFixture
 import com.example.bookmanager.support.author.insert
 import com.example.bookmanager.support.db.IntegrationTestSupport
-import com.example.bookmanager.jooq.tables.BookAuthors.BOOK_AUTHORS
-import com.example.bookmanager.jooq.tables.Books.BOOKS
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,12 +28,13 @@ class RegisterBookUseCaseIntegrationTest : IntegrationTestSupport() {
         val author = AuthorFixture.natsume()
         dsl.insert(author)
 
-        val parameter = RegisterBookUseCase.Parameter(
-            title = "こころ",
-            price = BigDecimal("1800.00"),
-            publishStatus = PublishStatus.PUBLISHED,
-            authorIds = listOf(author.id.toAuthorId())
-        )
+        val parameter =
+            RegisterBookUseCase.Parameter(
+                title = "こころ",
+                price = BigDecimal("1800.00"),
+                publishStatus = PublishStatus.PUBLISHED,
+                authorIds = listOf(author.id.toAuthorId()),
+            )
 
         val output = registerBookUseCase.exec(parameter)
 

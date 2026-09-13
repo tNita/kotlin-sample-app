@@ -31,5 +31,4 @@ data class AuthorResponse(
     val birthDate: LocalDate,
 )
 
-fun AuthorResult.toResponse(): AuthorResponse =
-    AuthorResponse(id = id, name = name, birthDate = birthDate)
+fun AuthorResult.toResponse(): AuthorResponse = AuthorResponse(id = id, name = name, birthDate = birthDate)

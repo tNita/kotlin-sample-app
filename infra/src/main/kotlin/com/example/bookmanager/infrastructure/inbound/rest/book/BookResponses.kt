@@ -2,9 +2,9 @@ package com.example.bookmanager.infrastructure.inbound.rest.book
 
 import com.example.bookmanager.application.CommandBookOutput
 import com.example.bookmanager.application.QueryBookOutput
+import com.example.bookmanager.domain.PublishStatus
 import com.example.bookmanager.infrastructure.inbound.rest.author.AuthorResponse
 import com.example.bookmanager.infrastructure.inbound.rest.author.toResponse
-import com.example.bookmanager.domain.PublishStatus
 import io.swagger.v3.oas.annotations.media.Schema
 import java.math.BigDecimal
 import java.util.UUID
@@ -37,18 +37,20 @@ data class BookMutationResponse(
     val authorIds: List<UUID>,
 )
 
-fun QueryBookOutput.toDetailResponse(): BookDetailResponse = BookDetailResponse(
-    id = id,
-    title = title,
-    price = price,
-    publishStatus = PublishStatus.valueOf(publishStatus),
-    authors = authors.map { it.toResponse() },
-)
+fun QueryBookOutput.toDetailResponse(): BookDetailResponse =
+    BookDetailResponse(
+        id = id,
+        title = title,
+        price = price,
+        publishStatus = PublishStatus.valueOf(publishStatus),
+        authors = authors.map { it.toResponse() },
+    )
 
-fun CommandBookOutput.toMutationResponse(): BookMutationResponse = BookMutationResponse(
-    id = id,
-    title = title,
-    price = price,
-    publishStatus = PublishStatus.valueOf(publishStatus),
-    authorIds = authorIds,
-)
+fun CommandBookOutput.toMutationResponse(): BookMutationResponse =
+    BookMutationResponse(
+        id = id,
+        title = title,
+        price = price,
+        publishStatus = PublishStatus.valueOf(publishStatus),
+        authorIds = authorIds,
+    )

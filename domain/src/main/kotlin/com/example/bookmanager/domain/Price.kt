@@ -7,7 +7,9 @@ import kotlin.jvm.JvmInline
  * 価格の値オブジェクト。0以上を保証する。
  */
 @JvmInline
-value class Price private constructor(val amount: BigDecimal) {
+value class Price private constructor(
+    val amount: BigDecimal,
+) {
     companion object {
         val ZERO: BigDecimal = BigDecimal.ZERO
 
