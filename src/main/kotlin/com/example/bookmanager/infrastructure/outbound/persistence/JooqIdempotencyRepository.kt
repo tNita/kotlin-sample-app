@@ -4,18 +4,30 @@ import com.example.bookmanager.application.port.outbound.IdempotencyRepository
 import com.example.bookmanager.jooq.tables.IdempotencyEntries.IDEMPOTENCY_ENTRIES
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.currentOffsetDateTime
+import java.time.Duration
+import java.time.OffsetDateTime
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
 
 @Repository
 class JooqIdempotencyRepository(
     private val dsl: DSLContext,
+    @Value("\${bookmanager.idempotency.ttl:PT1H}") private val ttl: Duration,
 ) : IdempotencyRepository {
-    // TODO: add support ttl
-    override fun tryStart(key: String): Boolean =
-        dsl.insertInto(IDEMPOTENCY_ENTRIES)
+    override fun tryStart(key: String): Boolean {
+        val expiresAt = OffsetDateTime.now().plus(ttl)
+        return dsl.insertInto(IDEMPOTENCY_ENTRIES)
             .set(IDEMPOTENCY_ENTRIES.IDEMPOTENCY_KEY, key)
-            .onConflictDoNothing()
+            .set(IDEMPOTENCY_ENTRIES.EXPIRES_AT, expiresAt)
+            .onConflict(IDEMPOTENCY_ENTRIES.IDEMPOTENCY_KEY)
+            .doUpdate()
+            .set(IDEMPOTENCY_ENTRIES.EXPIRES_AT, expiresAt)
+            .where(
+                IDEMPOTENCY_ENTRIES.COMPLETED_AT.isNull
+                    .and(IDEMPOTENCY_ENTRIES.EXPIRES_AT.le(currentOffsetDateTime()))
+            )
             .execute() == 1
+    }
 
     override fun complete(key: String) {
         dsl.update(IDEMPOTENCY_ENTRIES)
