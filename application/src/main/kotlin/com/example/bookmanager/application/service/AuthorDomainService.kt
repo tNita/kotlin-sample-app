@@ -5,10 +5,12 @@ import com.example.bookmanager.domain.Author
 import com.example.bookmanager.domain.AuthorId
 import com.example.bookmanager.domain.DomainErrorCode
 import com.example.bookmanager.domain.DomainException
+import org.springframework.stereotype.Service
 
 /**
- * 著者に関する整合性チェックを担うドメインサービス。
+ * リポジトリを利用して著者に関する整合性を判定するドメインサービス。
  */
+@Service
 class AuthorDomainService(
     private val authorRepository: AuthorRepository,
 ) {

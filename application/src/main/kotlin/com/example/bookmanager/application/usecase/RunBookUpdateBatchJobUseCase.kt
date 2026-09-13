@@ -14,9 +14,11 @@ import com.example.bookmanager.application.port.outbound.TaskNotified
 import com.example.bookmanager.application.port.outbound.TaskNotifier
 import com.example.bookmanager.domain.PublishStatus
 import com.example.bookmanager.shared.Id
+import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.util.UUID
 
+@Service
 class RunBookUpdateBatchJobUseCase(
     private val messagePoller: MessagePoller,
     private val idempotencyRepository: IdempotencyRepository,

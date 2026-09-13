@@ -9,8 +9,10 @@ import com.example.bookmanager.application.toResult
 import com.example.bookmanager.domain.AuthorId
 import com.example.bookmanager.domain.AuthorName
 import com.example.bookmanager.shared.Id
+import org.springframework.stereotype.Service
 import java.util.UUID
 
+@Service
 class SearchAuthorUseCase(
     private val authorQueryRepository: AuthorQueryRepository,
 ) : SearchAuthorInputPort {

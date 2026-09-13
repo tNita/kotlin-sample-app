@@ -39,7 +39,8 @@ graph TD
 - outbound port: ユースケースが必要とする永続化・検索の契約と参照モデルを定義する。
 - domain: エンティティ、値オブジェクト、不変条件を保持する。フレームワークや永続化に依存しない。
 - outbound: RDB などの外部リソースを実装し、outbound port を満たす。
-- Spring の部品組み立てとトランザクション境界は `infrastructure/config` に置く。domain と usecase は Spring API に依存しない。
+- application 層の Spring 依存を許容し、ユースケース・サービスは `@Service` で登録する。更新系ユースケースは入力ポートを直接実装し、`@Transactional` でトランザクション境界を宣言する。domain 層は Spring に依存しない。
+- 外部ライブラリのクライアントなど、生成時に設定が必要な Bean は `infrastructure/config` 等の `@Bean` で組み立てる。
 
 ### Gradle モジュール
 
@@ -69,7 +70,8 @@ graph RL
 ### API とバッチの起動分離
 
 同じ `infra` モジュールで、API は `BookManagerApplication`、バッチは
-`bootstrap/batch/BookUpdateBatchApplication` を起動します。
-API は `inbound/rest`・`inbound/messaging`・`config`・`outbound` をスキャンします。
-バッチは `config`・`outbound` をスキャンし、バッチ用のユースケース設定と Runner を明示的に import します。
+`bootstrap/batch/BatchApplication` を起動します。
+API は `application/usecase`・`application/service`・`inbound/rest`・`inbound/messaging`・`config`・`outbound` をスキャンします。
+バッチは `application/usecase`・`application/service`・`inbound/job`・`config`・`outbound` をスキャンします。
+バッチ専用の入力処理はバッチ起動クラスのコンポーネントスキャンにだけ含めます。
 バッチは Web を無効化し、Runner が保持する終了コードを main 関数でプロセスの終了コードに変換します。

@@ -1,23 +1,28 @@
 package com.example.bookmanager.application.usecase
 
 import com.example.bookmanager.application.AuthorResult
-import com.example.bookmanager.application.port.inbound.RegisterAuthorCommand
-import com.example.bookmanager.application.port.outbound.AuthorRepository
 import com.example.bookmanager.application.service.AuthorDomainService
+import com.example.bookmanager.application.port.inbound.RegisterAuthorCommand
+import com.example.bookmanager.application.port.inbound.RegisterAuthorInputPort
+import com.example.bookmanager.application.port.outbound.AuthorRepository
 import com.example.bookmanager.application.toResult
 import com.example.bookmanager.domain.Author
 import com.example.bookmanager.domain.AuthorName
 import com.example.bookmanager.domain.BirthDate
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 
+@Service
+@Transactional
 class RegisterAuthorUseCase(
     private val authorRepository: AuthorRepository,
     private val authorDomainService: AuthorDomainService,
-) {
+) : RegisterAuthorInputPort {
     /**
      * 著者の重複を避けつつ登録する。
      */
-    fun execute(command: RegisterAuthorCommand): AuthorResult =
+    override fun execute(command: RegisterAuthorCommand): AuthorResult =
         runUseCase {
             val name = AuthorName.of(command.name)
             val birthDate = BirthDate.of(command.birthDate)

@@ -5,7 +5,9 @@ import com.example.bookmanager.application.port.inbound.SearchBookInputPort
 import com.example.bookmanager.application.port.outbound.BookQueryRepository
 import com.example.bookmanager.application.toQueryOutput
 import com.example.bookmanager.domain.AuthorName
+import org.springframework.stereotype.Service
 
+@Service
 class SearchBookUseCase(
     private val bookQueryRepository: BookQueryRepository,
 ) : SearchBookInputPort {

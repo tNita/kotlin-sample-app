@@ -3,9 +3,10 @@ package com.example.bookmanager.application.usecase
 import com.example.bookmanager.application.ApplicationErrorCode
 import com.example.bookmanager.application.ApplicationException
 import com.example.bookmanager.application.CommandBookOutput
-import com.example.bookmanager.application.port.inbound.UpdateBookCommand
-import com.example.bookmanager.application.port.outbound.BookRepository
 import com.example.bookmanager.application.service.AuthorDomainService
+import com.example.bookmanager.application.port.inbound.UpdateBookCommand
+import com.example.bookmanager.application.port.inbound.UpdateBookInputPort
+import com.example.bookmanager.application.port.outbound.BookRepository
 import com.example.bookmanager.application.toCommandOutput
 import com.example.bookmanager.domain.AuthorId
 import com.example.bookmanager.domain.Book
@@ -13,18 +14,22 @@ import com.example.bookmanager.domain.BookId
 import com.example.bookmanager.domain.Price
 import com.example.bookmanager.domain.PublishStatus
 import com.example.bookmanager.domain.Title
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.math.BigDecimal
 import java.util.UUID
 
 /**
  * 書籍の更新のユースケース。
  */
+@Service
+@Transactional
 class UpdateBookUseCase(
     private val bookRepository: BookRepository,
     private val authorDomainService: AuthorDomainService,
-) {
+) : UpdateBookInputPort {
     /** IDを元に書籍を全項目上書きする。 */
-    fun execute(command: UpdateBookCommand): CommandBookOutput =
+    override fun execute(command: UpdateBookCommand): CommandBookOutput =
         runUseCase {
             val bookId = BookId.of(command.bookId)
             val existing =

@@ -1,12 +1,10 @@
 package com.example.bookmanager.bootstrap.batch
 
-import com.example.bookmanager.infrastructure.inbound.job.BookUpdateBatchJobRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.WebApplicationType
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Import
 import kotlin.system.exitProcess
 
 // バッチは処理後に終了する専用プロセスのため、API や常駐リスナーを読み込まず、共通設定とバッチ用の Bean だけを組み立てる。
@@ -14,15 +12,17 @@ import kotlin.system.exitProcess
 @EnableAutoConfiguration
 @ComponentScan(
     basePackages = [
+        "com.example.bookmanager.infrastructure.inbound.job",
+        "com.example.bookmanager.application.usecase",
+        "com.example.bookmanager.application.service",
         "com.example.bookmanager.infrastructure.config",
         "com.example.bookmanager.infrastructure.outbound",
     ],
 )
-@Import(BatchConfiguration::class, BookUpdateBatchJobRunner::class)
-class BookUpdateBatchApplication
+class BatchApplication
 
 fun batchApplication(): SpringApplication =
-    SpringApplication(BookUpdateBatchApplication::class.java).apply {
+    SpringApplication(BatchApplication::class.java).apply {
         // API と同じモジュールに Web の依存があるため、バッチでは Web サーバーを明示的に無効化する。
         setWebApplicationType(WebApplicationType.NONE)
     }

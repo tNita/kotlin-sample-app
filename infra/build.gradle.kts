@@ -155,14 +155,14 @@ springBoot {
 tasks.register<BootRun>("bootRunBatch") {
     description = "Runs the book update batch without a web server."
     group = "application"
-    mainClass.set("com.example.bookmanager.bootstrap.batch.BookUpdateBatchApplicationKt")
+    mainClass.set("com.example.bookmanager.bootstrap.batch.BatchApplicationKt")
     classpath = sourceSets.main.get().runtimeClasspath
 }
 
 tasks.register<BootJar>("bootJarBatch") {
     description = "Builds the executable book update batch jar."
     group = "build"
-    mainClass.set("com.example.bookmanager.bootstrap.batch.BookUpdateBatchApplicationKt")
+    mainClass.set("com.example.bookmanager.bootstrap.batch.BatchApplicationKt")
     archiveClassifier.set("batch")
     targetJavaVersion.set(java.targetCompatibility)
     classpath(sourceSets.main.get().runtimeClasspath)
