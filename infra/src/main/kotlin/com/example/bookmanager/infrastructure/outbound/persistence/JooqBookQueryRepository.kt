@@ -5,9 +5,9 @@ import com.example.bookmanager.application.port.outbound.BookQueryRepository
 import com.example.bookmanager.application.port.outbound.BookView
 import com.example.bookmanager.domain.AuthorName
 import com.example.bookmanager.domain.BookId
-import com.example.bookmanager.jooq.tables.Authors.AUTHORS
-import com.example.bookmanager.jooq.tables.BookAuthors.BOOK_AUTHORS
-import com.example.bookmanager.jooq.tables.Books.BOOKS
+import com.example.bookmanager.jooq.tables.Authors.Companion.AUTHORS
+import com.example.bookmanager.jooq.tables.BookAuthors.Companion.BOOK_AUTHORS
+import com.example.bookmanager.jooq.tables.Books.Companion.BOOKS
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 

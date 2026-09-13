@@ -1,7 +1,7 @@
 package com.example.bookmanager.infrastructure.outbound.persistence
 
 import com.example.bookmanager.application.port.outbound.IdempotencyRepository
-import com.example.bookmanager.jooq.tables.IdempotencyEntries.IDEMPOTENCY_ENTRIES
+import com.example.bookmanager.jooq.tables.IdempotencyEntries.Companion.IDEMPOTENCY_ENTRIES
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.currentOffsetDateTime
 import org.springframework.beans.factory.annotation.Value

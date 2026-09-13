@@ -5,7 +5,7 @@ import com.example.bookmanager.domain.Author
 import com.example.bookmanager.domain.AuthorId
 import com.example.bookmanager.domain.AuthorName
 import com.example.bookmanager.domain.BirthDate
-import com.example.bookmanager.jooq.tables.Authors.AUTHORS
+import com.example.bookmanager.jooq.tables.Authors.Companion.AUTHORS
 import com.example.bookmanager.jooq.tables.records.AuthorsRecord
 import org.jooq.DSLContext
 import org.springframework.context.annotation.Primary

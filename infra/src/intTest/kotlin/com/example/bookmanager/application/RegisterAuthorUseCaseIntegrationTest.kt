@@ -2,7 +2,7 @@ package com.example.bookmanager.application
 
 import com.example.bookmanager.application.usecase.RegisterAuthorUseCase
 import com.example.bookmanager.application.usecase.RegisterAuthorUseCase.Parameter
-import com.example.bookmanager.jooq.tables.Authors.AUTHORS
+import com.example.bookmanager.jooq.tables.Authors.Companion.AUTHORS
 import com.example.bookmanager.support.db.IntegrationTestSupport
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

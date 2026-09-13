@@ -64,7 +64,7 @@ jooq {
             jooqConfiguration.apply {
                 logging = Logging.WARN
                 generator.apply {
-                    name = "org.jooq.codegen.DefaultGenerator"
+                    name = "org.jooq.codegen.KotlinGenerator"
                     database.apply {
                         name = "org.jooq.meta.extensions.ddl.DDLDatabase"
                         properties =
@@ -77,6 +77,7 @@ jooq {
                     generate.apply {
                         isDaos = false
                         isPojos = false
+                        isKotlinNotNullRecordAttributes = true
                     }
                     target.apply {
                         packageName = "com.example.bookmanager.jooq"
@@ -85,6 +86,19 @@ jooq {
                 }
             }
         }
+    }
+}
+
+kotlin {
+    sourceSets.named("main") {
+        kotlin.srcDir(layout.buildDirectory.dir("generated-src/jooq/main"))
+    }
+}
+
+ktlint {
+    filter {
+        // Generated jOOQ sources use the generator's formatting conventions.
+        exclude { it.file.invariantSeparatorsPath.contains("/build/generated-src/jooq/") }
     }
 }
 

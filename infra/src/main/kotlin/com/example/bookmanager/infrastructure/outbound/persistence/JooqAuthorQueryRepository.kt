@@ -4,7 +4,7 @@ import com.example.bookmanager.application.port.outbound.AuthorQueryRepository
 import com.example.bookmanager.application.port.outbound.AuthorView
 import com.example.bookmanager.domain.AuthorId
 import com.example.bookmanager.domain.AuthorName
-import com.example.bookmanager.jooq.tables.Authors.AUTHORS
+import com.example.bookmanager.jooq.tables.Authors.Companion.AUTHORS
 import com.example.bookmanager.jooq.tables.records.AuthorsRecord
 import org.jooq.Condition
 import org.jooq.DSLContext

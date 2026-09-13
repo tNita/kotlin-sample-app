@@ -1,6 +1,6 @@
 package com.example.bookmanager.support.author
 
-import com.example.bookmanager.jooq.tables.Authors.AUTHORS
+import com.example.bookmanager.jooq.tables.Authors.Companion.AUTHORS
 import org.jooq.DSLContext
 import java.time.LocalDate
 import java.util.UUID

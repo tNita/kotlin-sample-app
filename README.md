@@ -75,6 +75,3 @@ aws --endpoint-url=http://localhost:4566 sqs send-message \
 ## ライブラリバージョン管理
 
 ライブラリと Gradle プラグインのバージョンは、Gradle 標準の Version Catalog である [`gradle/libs.versions.toml`](./gradle/libs.versions.toml) に集約しています。依存関係を追加・更新する際は、このファイルでバージョンを管理し、各モジュールでは `libs` エイリアスを利用してください。
-
-## TODO
-- jOOQのKotlinコード自動生成設定

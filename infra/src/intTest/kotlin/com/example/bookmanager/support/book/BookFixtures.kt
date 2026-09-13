@@ -1,7 +1,7 @@
 package com.example.bookmanager.support.book
 
 import com.example.bookmanager.domain.PublishStatus
-import com.example.bookmanager.jooq.tables.Books.BOOKS
+import com.example.bookmanager.jooq.tables.Books.Companion.BOOKS
 import org.jooq.DSLContext
 import java.math.BigDecimal
 import java.util.UUID

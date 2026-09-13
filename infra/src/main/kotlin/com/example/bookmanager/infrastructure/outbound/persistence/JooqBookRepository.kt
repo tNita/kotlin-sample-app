@@ -6,8 +6,8 @@ import com.example.bookmanager.domain.BookId
 import com.example.bookmanager.domain.Price
 import com.example.bookmanager.domain.PublishStatus
 import com.example.bookmanager.domain.Title
-import com.example.bookmanager.jooq.tables.BookAuthors.BOOK_AUTHORS
-import com.example.bookmanager.jooq.tables.Books.BOOKS
+import com.example.bookmanager.jooq.tables.BookAuthors.Companion.BOOK_AUTHORS
+import com.example.bookmanager.jooq.tables.Books.Companion.BOOKS
 import com.example.bookmanager.jooq.tables.records.BooksRecord
 import com.example.bookmanager.shared.Id
 import org.jooq.DSLContext
