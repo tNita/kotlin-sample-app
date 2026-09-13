@@ -34,6 +34,7 @@ fun Author.toResult(): AuthorResult =
         id = this.id.value,
         name = this.name.value,
         birthDate = this.birthDate.value,
+        affiliation = this.affiliation.value,
     )
 
 fun AuthorView.toResult(): AuthorResult =
@@ -41,6 +42,7 @@ fun AuthorView.toResult(): AuthorResult =
         id = this.id,
         name = this.name,
         birthDate = this.birthDate,
+        affiliation = this.affiliation,
     )
 
 fun Book.toCommandOutput(): CommandBookOutput =

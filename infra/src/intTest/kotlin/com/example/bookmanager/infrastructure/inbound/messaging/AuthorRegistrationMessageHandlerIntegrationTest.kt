@@ -24,6 +24,7 @@ class AuthorRegistrationMessageHandlerIntegrationTest : IntegrationTestSupport()
             AuthorRegistrationMessage(
                 name = "宮沢賢治",
                 birthDate = LocalDate.parse("1896-08-27"),
+                affiliation = "日本文藝家協会",
             )
 
         handler.handle(message)
@@ -32,5 +33,6 @@ class AuthorRegistrationMessageHandlerIntegrationTest : IntegrationTestSupport()
         assertEquals(1, authors.size)
         assertEquals(message.name, authors.single().name)
         assertEquals(message.birthDate, authors.single().birthDate)
+        assertEquals(message.affiliation, authors.single().affiliation)
     }
 }

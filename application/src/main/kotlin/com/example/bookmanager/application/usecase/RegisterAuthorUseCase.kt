@@ -7,6 +7,7 @@ import com.example.bookmanager.application.port.inbound.RegisterAuthorInputPort
 import com.example.bookmanager.application.port.outbound.AuthorRepository
 import com.example.bookmanager.application.toResult
 import com.example.bookmanager.domain.Author
+import com.example.bookmanager.domain.AuthorAffiliation
 import com.example.bookmanager.domain.AuthorName
 import com.example.bookmanager.domain.BirthDate
 import org.springframework.stereotype.Service
@@ -26,7 +27,7 @@ class RegisterAuthorUseCase(
         runUseCase {
             val name = AuthorName.of(command.name)
             val birthDate = BirthDate.of(command.birthDate)
-            val author = Author.create(name, birthDate)
+            val author = Author.create(name, birthDate, AuthorAffiliation.of(command.affiliation).getOrThrow())
             authorPolicy.ensureNotDuplicated(author)
 
             val saved = authorRepository.save(author)
@@ -38,7 +39,8 @@ class RegisterAuthorUseCase(
     data class Parameter(
         val name: String,
         val birthDate: LocalDate,
+        val affiliation: String = "",
     ) {
-        fun toCommand() = RegisterAuthorCommand(name, birthDate)
+        fun toCommand() = RegisterAuthorCommand(name, birthDate, affiliation)
     }
 }

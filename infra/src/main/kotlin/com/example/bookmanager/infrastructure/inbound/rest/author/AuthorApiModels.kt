@@ -19,6 +19,9 @@ data class RegisterAuthorRequest(
     @field:Past
     @Schema(description = "生年月日", type = "string", format = "date", example = "1867-02-09")
     val birthDate: LocalDate,
+    @field:Size(max = 255)
+    @Schema(description = "所属（空文字は未設定）")
+    val affiliation: String? = null,
 )
 
 @Schema(description = "著者レスポンス")
@@ -29,6 +32,9 @@ data class AuthorResponse(
     val name: String,
     @Schema(description = "生年月日", type = "string", format = "date", example = "1867-02-09")
     val birthDate: LocalDate,
+    @field:Size(max = 255)
+    @Schema(description = "所属（空文字は未設定）")
+    val affiliation: String = "",
 )
 
-fun AuthorResult.toResponse(): AuthorResponse = AuthorResponse(id = id, name = name, birthDate = birthDate)
+fun AuthorResult.toResponse(): AuthorResponse = AuthorResponse(id = id, name = name, birthDate = birthDate, affiliation = affiliation)

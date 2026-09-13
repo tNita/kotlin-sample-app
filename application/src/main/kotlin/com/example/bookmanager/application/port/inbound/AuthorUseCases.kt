@@ -11,6 +11,7 @@ interface RegisterAuthorInputPort {
 data class RegisterAuthorCommand(
     val name: String,
     val birthDate: LocalDate,
+    val affiliation: String = "",
 )
 
 interface SearchAuthorInputPort {

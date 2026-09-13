@@ -21,6 +21,7 @@ class AuthorRegistrationMessageHandler(
                 RegisterAuthorCommand(
                     name = message.name,
                     birthDate = message.birthDate,
+                    affiliation = message.affiliation.orEmpty(),
                 ),
             )
         logger.info("著者登録メッセージを処理しました: authorId={}", registered.id)

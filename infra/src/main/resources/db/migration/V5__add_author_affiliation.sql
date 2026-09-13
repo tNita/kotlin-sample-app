@@ -1,0 +1,1 @@
+ALTER TABLE authors ADD COLUMN affiliation VARCHAR(255) NOT NULL DEFAULT '';

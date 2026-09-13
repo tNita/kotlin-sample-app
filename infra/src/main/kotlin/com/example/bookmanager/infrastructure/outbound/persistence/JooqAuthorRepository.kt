@@ -2,6 +2,7 @@ package com.example.bookmanager.infrastructure.outbound.persistence
 
 import com.example.bookmanager.application.port.outbound.AuthorRepository
 import com.example.bookmanager.domain.Author
+import com.example.bookmanager.domain.AuthorAffiliation
 import com.example.bookmanager.domain.AuthorId
 import com.example.bookmanager.domain.AuthorName
 import com.example.bookmanager.domain.BirthDate
@@ -22,6 +23,7 @@ class JooqAuthorRepository(
             .set(AUTHORS.ID, author.id.value)
             .set(AUTHORS.NAME, author.name.value)
             .set(AUTHORS.BIRTH_DATE, author.birthDate.value)
+            .set(AUTHORS.AFFILIATION, author.affiliation.value)
             .execute()
         return author
     }
@@ -52,5 +54,6 @@ class JooqAuthorRepository(
             id = AuthorId.generate { this.id },
             name = AuthorName.of(this.name),
             birthDate = BirthDate.of(birthDate),
+            affiliation = AuthorAffiliation.of(this.affiliation!!).getOrThrow(),
         )
 }

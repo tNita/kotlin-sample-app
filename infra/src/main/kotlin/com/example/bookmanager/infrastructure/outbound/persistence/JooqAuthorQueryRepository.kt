@@ -34,5 +34,6 @@ class JooqAuthorQueryRepository(
             id = this.id!!,
             name = this.name!!,
             birthDate = this.birthDate!!,
+            affiliation = this.affiliation!!,
         )
 }

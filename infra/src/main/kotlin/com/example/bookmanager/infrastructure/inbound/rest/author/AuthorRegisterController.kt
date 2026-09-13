@@ -44,6 +44,7 @@ class AuthorRegisterController(
                 RegisterAuthorCommand(
                     name = request.name,
                     birthDate = request.birthDate,
+                    affiliation = request.affiliation.orEmpty(),
                 ),
             )
         return ResponseEntity.status(HttpStatus.CREATED).body(created.toResponse())

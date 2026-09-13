@@ -8,4 +8,5 @@ data class AuthorResult(
     val id: UUID,
     val name: String,
     val birthDate: LocalDate,
+    val affiliation: String = "",
 )

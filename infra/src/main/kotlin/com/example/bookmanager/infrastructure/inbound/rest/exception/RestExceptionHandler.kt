@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.media.Schema
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.http.converter.HttpMessageNotReadableException
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
@@ -41,6 +43,12 @@ class RestExceptionHandler {
             )
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body)
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException::class, HttpMessageNotReadableException::class)
+    fun handleInvalidRequest(exception: Exception): ResponseEntity<ErrorResponse> =
+        ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+            ErrorResponse(code = "INVALID_REQUEST", message = "リクエストの形式または入力値が不正です"),
+        )
 
     @ExceptionHandler(Exception::class)
     fun handleUnexpected(

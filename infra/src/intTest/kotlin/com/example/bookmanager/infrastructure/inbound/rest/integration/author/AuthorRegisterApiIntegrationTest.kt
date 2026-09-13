@@ -55,6 +55,7 @@ class AuthorRegisterApiIntegrationTest : IntegrationTestSupport() {
                 ).andExpect(status().isCreated)
                 .andExpect(content().contentTypeCompatibleWith("application/json"))
                 .andExpect(jsonPath("$.name").value(request.name))
+                .andExpect(jsonPath("$.affiliation").value(""))
                 .andExpect(jsonPath("$.birthDate").value(request.birthDate.toString()))
                 .andReturn()
 
@@ -66,6 +67,40 @@ class AuthorRegisterApiIntegrationTest : IntegrationTestSupport() {
             .andExpect(jsonPath("$[0].id").value(createdId.toString()))
             .andExpect(jsonPath("$[0].name").value(request.name))
             .andExpect(jsonPath("$[0].birthDate").value(request.birthDate.toString()))
+    }
+
+    @Test
+    fun `255文字の所属を登録して検索できる`() {
+        val affiliation = "あ".repeat(255)
+        val response =
+            mockMvc
+                .perform(
+                    post("/api/authors")
+                        .contentType("application/json")
+                        .content("""{"name":"所属の著者","birthDate":"1990-01-01","affiliation":"$affiliation"}"""),
+                ).andExpect(status().isCreated)
+                .andExpect(jsonPath("$.affiliation").value(affiliation))
+                .andReturn()
+        val id = parseId(response.response.contentAsString)
+        mockMvc
+            .perform(get("/api/authors/search").param("id", id.toString()))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$[0].affiliation").value(affiliation))
+    }
+
+    @Test
+    fun `256文字の所属は登録できない`() {
+        val affiliation = "あ".repeat(256)
+        mockMvc
+            .perform(
+                post("/api/authors")
+                    .contentType("application/json")
+                    .content("""{"name":"所属の著者","birthDate":"1990-01-01","affiliation":"$affiliation"}"""),
+            ).andExpect(status().isBadRequest)
+        mockMvc
+            .perform(get("/api/authors/search").param("name", "所属の著者"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.length()").value(0))
     }
 
     private fun parseId(json: String): UUID =

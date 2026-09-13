@@ -5,4 +5,5 @@ import java.time.LocalDate
 data class AuthorRegistrationMessage(
     val name: String,
     val birthDate: LocalDate,
+    val affiliation: String? = null,
 )
