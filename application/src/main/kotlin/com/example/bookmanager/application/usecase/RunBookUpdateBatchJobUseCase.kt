@@ -6,12 +6,8 @@ import com.example.bookmanager.application.port.inbound.RunBookUpdateBatchJobInp
 import com.example.bookmanager.application.port.inbound.UpdateBookCommand
 import com.example.bookmanager.application.port.inbound.UpdateBookInputPort
 import com.example.bookmanager.application.port.outbound.BookUpdateBatchLineResult
-import com.example.bookmanager.application.port.outbound.IdempotencyRepository
-import com.example.bookmanager.application.port.outbound.MessagePoller
 import com.example.bookmanager.application.port.outbound.RawBookUpdateBatchLine
 import com.example.bookmanager.application.port.outbound.RemoteStorage
-import com.example.bookmanager.application.port.outbound.TaskNotified
-import com.example.bookmanager.application.port.outbound.TaskNotifier
 import com.example.bookmanager.domain.PublishStatus
 import com.example.bookmanager.shared.Id
 import org.springframework.stereotype.Service
@@ -20,35 +16,13 @@ import java.util.UUID
 
 @Service
 class RunBookUpdateBatchJobUseCase(
-    private val messagePoller: MessagePoller,
-    private val idempotencyRepository: IdempotencyRepository,
-    private val taskNotifier: TaskNotifier,
+    private val batchTaskExecutor: BatchTaskExecutor,
     private val getBook: GetBookInputPort,
     private val updateBook: UpdateBookInputPort,
     private val storage: RemoteStorage,
 ) : RunBookUpdateBatchJobInputPort {
     override fun execute() {
-        val taskType = UpdateTaskData.TASK_TYPE
-        messagePoller.poll(taskType.queueName, taskType.dataType) { message ->
-            val idempotencyKey = "${taskType.queueName}:${message.id}"
-            if (!idempotencyRepository.tryStart(idempotencyKey)) return@poll
-            try {
-                process(message.data)
-                taskNotifier.execute(TaskNotified.Success(message.taskToken))
-                idempotencyRepository.complete(idempotencyKey)
-            } catch (exception: Exception) {
-                idempotencyRepository.release(idempotencyKey)
-                runCatching {
-                    taskNotifier.execute(
-                        TaskNotified.Failure(
-                            message.taskToken,
-                            exception.message ?: "書籍一括更新に失敗しました",
-                        ),
-                    )
-                }
-                throw exception
-            }
-        }
+        batchTaskExecutor.execute(UpdateTaskData.TASK_TYPE, "書籍一括更新に失敗しました", ::process)
     }
 
     private fun process(data: UpdateTaskData) {
