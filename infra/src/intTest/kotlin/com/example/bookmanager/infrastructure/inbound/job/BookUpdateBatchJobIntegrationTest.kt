@@ -7,6 +7,7 @@ import com.example.bookmanager.application.port.outbound.IdempotencyRepository
 import com.example.bookmanager.application.port.outbound.RemoteStorage
 import com.example.bookmanager.application.port.outbound.TaskNotified
 import com.example.bookmanager.application.port.outbound.TaskNotifier
+import com.example.bookmanager.application.usecase.BatchTaskExecutor
 import com.example.bookmanager.application.usecase.RunBookUpdateBatchJobUseCase
 import com.example.bookmanager.infrastructure.outbound.messaging.SqsMessagePoller
 import com.example.bookmanager.support.book.seedDefaultBooks
@@ -98,9 +99,7 @@ class BookUpdateBatchJobIntegrationTest : IntegrationTestSupport() {
 
     private fun job(taskNotifier: TaskNotifier) =
         RunBookUpdateBatchJobUseCase(
-            SqsMessagePoller(sqsClient, objectMapper),
-            idempotencyRepository,
-            taskNotifier,
+            BatchTaskExecutor(SqsMessagePoller(sqsClient, objectMapper), idempotencyRepository, taskNotifier),
             getBook,
             updateBook,
             storage,

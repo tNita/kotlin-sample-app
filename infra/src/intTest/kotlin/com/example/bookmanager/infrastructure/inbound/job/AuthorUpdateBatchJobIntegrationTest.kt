@@ -9,6 +9,7 @@ import com.example.bookmanager.application.port.outbound.MessagePoller
 import com.example.bookmanager.application.port.outbound.PolledMessage
 import com.example.bookmanager.application.port.outbound.RemoteStorage
 import com.example.bookmanager.application.port.outbound.TaskNotifier
+import com.example.bookmanager.application.usecase.BatchTaskExecutor
 import com.example.bookmanager.application.usecase.RunAuthorUpdateBatchJobUseCase
 import com.example.bookmanager.infrastructure.outbound.messaging.SfnTaskNotifier
 import com.example.bookmanager.infrastructure.outbound.messaging.SqsMessagePoller
@@ -225,9 +226,7 @@ class AuthorUpdateBatchJobIntegrationTest : IntegrationTestSupport() {
         taskNotifier: TaskNotifier,
         poller: MessagePoller = SqsMessagePoller(sqsClient, objectMapper),
     ) = RunAuthorUpdateBatchJobUseCase(
-        poller,
-        idempotencyRepository,
-        taskNotifier,
+        BatchTaskExecutor(poller, idempotencyRepository, taskNotifier),
         updateAuthor,
         storage,
     )
