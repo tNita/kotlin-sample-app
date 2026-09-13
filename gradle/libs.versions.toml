@@ -1,0 +1,46 @@
+[versions]
+kotlin = "2.2.21"
+spring-boot = "4.0.0"
+aws-sdk = "2.54.16"
+spring-cloud-aws = "4.1.1"
+jooq = "3.19.28"
+springdoc = "2.6.0"
+uuid-generator = "5.0.0"
+ktlint = "14.2.0"
+jooq-gradle = "9.0"
+
+[libraries]
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5", version.ref = "kotlin" }
+uuid-generator = { module = "com.fasterxml.uuid:java-uuid-generator", version.ref = "uuid-generator" }
+
+spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-boot-starter-flyway = { module = "org.springframework.boot:spring-boot-starter-flyway" }
+spring-boot-starter-jooq = { module = "org.springframework.boot:spring-boot-starter-jooq" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-boot-starter-flyway-test = { module = "org.springframework.boot:spring-boot-starter-flyway-test" }
+spring-boot-starter-jooq-test = { module = "org.springframework.boot:spring-boot-starter-jooq-test" }
+spring-boot-docker-compose = { module = "org.springframework.boot:spring-boot-docker-compose" }
+flyway-database-postgresql = { module = "org.flywaydb:flyway-database-postgresql" }
+postgresql = { module = "org.postgresql:postgresql" }
+jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
+spring-integration-jdbc = { module = "org.springframework.integration:spring-integration-jdbc" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+
+aws-sdk-bom = { module = "software.amazon.awssdk:bom", version.ref = "aws-sdk" }
+aws-sfn = { module = "software.amazon.awssdk:sfn" }
+spring-cloud-aws-dependencies = { module = "io.awspring.cloud:spring-cloud-aws-dependencies", version.ref = "spring-cloud-aws" }
+spring-cloud-aws-starter-integration-sqs = { module = "io.awspring.cloud:spring-cloud-aws-starter-integration-sqs" }
+spring-cloud-aws-starter-s3 = { module = "io.awspring.cloud:spring-cloud-aws-starter-s3" }
+
+springdoc-openapi-webmvc-ui = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
+jooq-meta-extensions = { module = "org.jooq:jooq-meta-extensions", version.ref = "jooq" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+jooq = { id = "nu.studer.jooq", version.ref = "jooq-gradle" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
