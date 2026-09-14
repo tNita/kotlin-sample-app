@@ -3,9 +3,9 @@ package com.example.bookmanager.application
 import com.example.bookmanager.application.port.inbound.RegisterBookCommand
 import com.example.bookmanager.application.port.inbound.RegisterBookInputPort
 import com.example.bookmanager.application.port.outbound.BookRepository
+import com.example.bookmanager.domain.AuthorId
 import com.example.bookmanager.jooq.tables.BookAuthors.Companion.BOOK_AUTHORS
 import com.example.bookmanager.jooq.tables.Books.Companion.BOOKS
-import com.example.bookmanager.shared.Id
 import com.example.bookmanager.support.author.AuthorFixture
 import com.example.bookmanager.support.author.insert
 import com.example.bookmanager.support.db.IntegrationTestSupport
@@ -37,7 +37,7 @@ class UseCaseTransactionIntegrationTest : IntegrationTestSupport() {
             RegisterBookCommand(
                 title = "こころ",
                 price = BigDecimal("1800"),
-                authorIds = listOf(Id.generate { author.id }),
+                authorIds = listOf(AuthorId.generate { author.id }),
             )
 
         doAnswer { invocation ->

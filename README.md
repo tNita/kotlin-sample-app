@@ -3,7 +3,7 @@
 ## 技術スタック
 - 言語/ランタイム: Kotlin 2.2.x / JDK 21
 - フレームワーク: Spring Boot 4.0.x
-- ビルド: Gradle（Groovy DSL）
+- ビルド: Gradle（Kotlin DSL）
 - ORM: jOOQ
 - マイグレーション: Flyway
 - テスト: JUnit 5

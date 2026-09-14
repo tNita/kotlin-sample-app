@@ -1,5 +1,14 @@
 package com.example.bookmanager.domain
 
-import com.example.bookmanager.shared.Id
+import java.util.UUID
 
-typealias AuthorId = Id
+@JvmInline
+value class AuthorId private constructor(
+    val value: UUID,
+) {
+    companion object {
+        fun of(value: UUID): AuthorId = AuthorId(requireIdVersion(value))
+
+        fun generate(uuidSupplier: () -> UUID = { Id.generate().value }): AuthorId = of(uuidSupplier())
+    }
+}

@@ -11,7 +11,6 @@ java {
 
 dependencies {
     implementation(project(":domain"))
-    implementation(project(":shared"))
     implementation(platform(libs.spring.boot.dependencies))
     implementation(libs.spring.context)
     implementation(libs.spring.tx)

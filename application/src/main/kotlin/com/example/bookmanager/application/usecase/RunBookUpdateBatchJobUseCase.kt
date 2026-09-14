@@ -8,8 +8,8 @@ import com.example.bookmanager.application.port.inbound.UpdateBookInputPort
 import com.example.bookmanager.application.port.outbound.BookUpdateBatchLineResult
 import com.example.bookmanager.application.port.outbound.RawBookUpdateBatchLine
 import com.example.bookmanager.application.port.outbound.RemoteStorage
+import com.example.bookmanager.domain.AuthorId
 import com.example.bookmanager.domain.PublishStatus
-import com.example.bookmanager.shared.Id
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.util.UUID
@@ -46,7 +46,7 @@ class RunBookUpdateBatchJobUseCase(
                 book.title,
                 BigDecimal(rawLine.price),
                 PublishStatus.valueOf(rawLine.publishStatus),
-                book.authorIds.map { Id.generate { it } },
+                book.authorIds.map { AuthorId.generate { it } },
             ),
         )
     }

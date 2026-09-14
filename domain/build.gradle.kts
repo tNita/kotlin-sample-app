@@ -1,4 +1,5 @@
 plugins {
+    `java-library`
     id("org.jetbrains.kotlin.jvm")
 }
 
@@ -9,7 +10,8 @@ java {
 }
 
 dependencies {
-    implementation(project(":shared"))
+    compileOnlyApi(libs.jspecify)
+    implementation(libs.uuid.generator)
     testImplementation(libs.kotlin.test.junit5)
     testRuntimeOnly(libs.junit.platform.launcher)
 }

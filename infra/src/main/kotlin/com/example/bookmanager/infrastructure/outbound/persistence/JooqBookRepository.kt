@@ -1,6 +1,7 @@
 package com.example.bookmanager.infrastructure.outbound.persistence
 
 import com.example.bookmanager.application.port.outbound.BookRepository
+import com.example.bookmanager.domain.AuthorId
 import com.example.bookmanager.domain.Book
 import com.example.bookmanager.domain.BookId
 import com.example.bookmanager.domain.Price
@@ -9,7 +10,6 @@ import com.example.bookmanager.domain.Title
 import com.example.bookmanager.jooq.tables.BookAuthors.Companion.BOOK_AUTHORS
 import com.example.bookmanager.jooq.tables.Books.Companion.BOOKS
 import com.example.bookmanager.jooq.tables.records.BooksRecord
-import com.example.bookmanager.shared.Id
 import org.jooq.DSLContext
 import org.springframework.context.annotation.Primary
 import org.springframework.stereotype.Repository
@@ -57,7 +57,7 @@ class JooqBookRepository(
         val authorIds =
             records
                 .mapNotNull { it.get(BOOK_AUTHORS.AUTHOR_ID) }
-                .map { uuid -> Id.generate { uuid } }
+                .map { uuid -> AuthorId.generate { uuid } }
                 .toSet()
 
         return bookRecord.toDomain(authorIds)
@@ -66,7 +66,7 @@ class JooqBookRepository(
     private fun replaceBookAuthors(
         tx: DSLContext,
         bookId: BookId,
-        authorIds: Set<Id>,
+        authorIds: Set<AuthorId>,
     ) {
         tx
             .deleteFrom(BOOK_AUTHORS)
@@ -82,7 +82,7 @@ class JooqBookRepository(
         }
     }
 
-    private fun BooksRecord.toDomain(authorIds: Set<Id>): Book =
+    private fun BooksRecord.toDomain(authorIds: Set<AuthorId>): Book =
         Book.ofExisting(
             id = BookId.of(this.id!!),
             title = Title.of(this.title!!),

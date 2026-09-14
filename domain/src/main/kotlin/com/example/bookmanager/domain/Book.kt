@@ -1,6 +1,6 @@
 package com.example.bookmanager.domain
 
-import com.example.bookmanager.shared.Id
+import com.example.bookmanager.domain.AuthorId
 
 /**
  * 書籍エンティティ（集約ルート）。
@@ -10,14 +10,14 @@ data class Book(
     val title: Title,
     val price: Price,
     val publishStatus: PublishStatus = PublishStatus.UNPUBLISHED,
-    val authorIds: Set<Id>,
+    val authorIds: Set<AuthorId>,
 ) {
     companion object {
         fun create(
             title: Title,
             price: Price,
             publishStatus: PublishStatus = PublishStatus.UNPUBLISHED,
-            authorIds: Collection<Id>,
+            authorIds: Collection<AuthorId>,
         ): Book {
             if (authorIds.isEmpty()) {
                 throw DomainException(DomainErrorCode.NO_AUTHORS, "Book must have at least one author")
@@ -36,7 +36,7 @@ data class Book(
             title: Title,
             price: Price,
             publishStatus: PublishStatus,
-            authorIds: Set<Id>,
+            authorIds: Set<AuthorId>,
         ): Book =
             Book(
                 id = id,
@@ -61,7 +61,7 @@ data class Book(
         return copy(publishStatus = newStatus)
     }
 
-    fun withAuthors(authorIds: Collection<Id>): Book = copy(authorIds = normalizeAuthors(authorIds))
+    fun withAuthors(authorIds: Collection<AuthorId>): Book = copy(authorIds = normalizeAuthors(authorIds))
 }
 
-private fun normalizeAuthors(authorIds: Collection<Id>): Set<Id> = authorIds.toSet()
+private fun normalizeAuthors(authorIds: Collection<AuthorId>): Set<AuthorId> = authorIds.toSet()

@@ -5,7 +5,6 @@ import com.example.bookmanager.domain.AuthorId
 import com.example.bookmanager.domain.PublishStatus
 import com.example.bookmanager.jooq.tables.BookAuthors.Companion.BOOK_AUTHORS
 import com.example.bookmanager.jooq.tables.Books.Companion.BOOKS
-import com.example.bookmanager.shared.Id
 import com.example.bookmanager.support.author.AuthorFixture
 import com.example.bookmanager.support.author.insert
 import com.example.bookmanager.support.db.IntegrationTestSupport
@@ -53,5 +52,5 @@ class RegisterBookUseCaseIntegrationTest : IntegrationTestSupport() {
         assertThat(relations.single().authorId).isEqualTo(author.id)
     }
 
-    private fun UUID.toAuthorId(): AuthorId = Id.generate { this }
+    private fun UUID.toAuthorId(): AuthorId = AuthorId.generate { this }
 }

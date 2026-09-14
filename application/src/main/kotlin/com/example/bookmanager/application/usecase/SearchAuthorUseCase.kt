@@ -8,7 +8,6 @@ import com.example.bookmanager.application.port.outbound.AuthorQueryRepository
 import com.example.bookmanager.application.toResult
 import com.example.bookmanager.domain.AuthorId
 import com.example.bookmanager.domain.AuthorName
-import com.example.bookmanager.shared.Id
 import org.springframework.stereotype.Service
 import java.util.UUID
 
@@ -24,7 +23,7 @@ class SearchAuthorUseCase(
         name: String?,
     ): List<AuthorResult> =
         runUseCase {
-            val authorId: AuthorId? = id?.let { uuid -> Id.generate { uuid } }
+            val authorId: AuthorId? = id?.let { uuid -> AuthorId.generate { uuid } }
             val authorName = name?.takeIf { it.isNotBlank() }?.let { AuthorName.of(it) }
             if (authorId == null && authorName == null) {
                 throw ApplicationException(ApplicationErrorCode.INVALID_REQUEST, "Either id or name must be provided")

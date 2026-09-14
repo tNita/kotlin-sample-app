@@ -26,7 +26,6 @@ java {
 dependencies {
     implementation(project(":application"))
     implementation(project(":domain"))
-    implementation(project(":shared"))
     implementation(platform(libs.spring.boot.dependencies))
     implementation(platform(libs.aws.sdk.bom))
     implementation(platform(libs.spring.cloud.aws.dependencies))

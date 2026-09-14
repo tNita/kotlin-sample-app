@@ -4,7 +4,6 @@ import com.example.bookmanager.application.port.inbound.RegisterBookCommand
 import com.example.bookmanager.application.port.inbound.UpdateBookCommand
 import com.example.bookmanager.domain.AuthorId
 import com.example.bookmanager.domain.PublishStatus
-import com.example.bookmanager.shared.Id
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.DecimalMin
 import jakarta.validation.constraints.Digits
@@ -70,4 +69,4 @@ data class UpdateBookRequest(
         )
 }
 
-private fun List<UUID>.toAuthorIds(): List<AuthorId> = map { uuid -> Id.generate { uuid } }
+private fun List<UUID>.toAuthorIds(): List<AuthorId> = map { uuid -> AuthorId.generate { uuid } }

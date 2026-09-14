@@ -7,9 +7,11 @@ jooq = "3.19.28"
 springdoc = "2.6.0"
 uuid-generator = "5.0.0"
 ktlint = "14.2.0"
+jspecify = "1.0.0"
 jooq-gradle = "9.0"
 
 [libraries]
+jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify" }
 spring-context = { module = "org.springframework:spring-context" }
 spring-tx = { module = "org.springframework:spring-tx" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }

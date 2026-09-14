@@ -50,10 +50,8 @@ graph TD
 graph RL
     Infrastructure[infra] --> Application[application]
     Application --> Domain[domain]
-    Domain --> Shared[shared]
 ```
 
-- `shared`: 共有の基盤型
 - `domain`: ドメインモデル
 - `application`: ユースケースとポート
 - `infra`: 実行可能な Spring Boot アプリケーションと各種アダプタ

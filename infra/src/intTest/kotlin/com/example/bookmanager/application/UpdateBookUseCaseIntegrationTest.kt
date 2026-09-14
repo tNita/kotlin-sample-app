@@ -5,7 +5,6 @@ import com.example.bookmanager.domain.AuthorId
 import com.example.bookmanager.domain.PublishStatus
 import com.example.bookmanager.jooq.tables.BookAuthors.Companion.BOOK_AUTHORS
 import com.example.bookmanager.jooq.tables.Books.Companion.BOOKS
-import com.example.bookmanager.shared.Id
 import com.example.bookmanager.support.book.seedDefaultBooks
 import com.example.bookmanager.support.db.IntegrationTestSupport
 import org.assertj.core.api.Assertions.assertThat
@@ -52,5 +51,5 @@ class UpdateBookUseCaseIntegrationTest : IntegrationTestSupport() {
         assertThat(relations.map { it.authorId }).containsExactlyInAnyOrder(ids.authorId1, ids.authorId2)
     }
 
-    private fun UUID.toAuthorId(): AuthorId = Id.generate { this }
+    private fun UUID.toAuthorId(): AuthorId = AuthorId.generate { this }
 }

@@ -1,6 +1,6 @@
 package com.example.bookmanager.domain
 
-import com.example.bookmanager.shared.Id
+import com.example.bookmanager.domain.AuthorId
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
@@ -8,8 +8,8 @@ import java.math.BigDecimal
 import java.util.UUID
 
 class BookTest {
-    private val authorId1 = Id.generate { UUID.fromString("01890a3f-54c1-7f1e-8b10-cbc61ff35f4e") }
-    private val authorId2 = Id.generate { UUID.fromString("01890a3f-54c1-7f1e-8b10-cbc61ff35f4f") }
+    private val authorId1 = AuthorId.generate { UUID.fromString("01890a3f-54c1-7f1e-8b10-cbc61ff35f4e") }
+    private val authorId2 = AuthorId.generate { UUID.fromString("01890a3f-54c1-7f1e-8b10-cbc61ff35f4f") }
 
     @Test
     fun `著者が一人もいなければエラー`() {

@@ -1,12 +1,12 @@
 package com.example.bookmanager.domain
 
-import com.example.bookmanager.shared.Id
+import com.example.bookmanager.domain.AuthorId
 
 /**
  * 著者エンティティ。
  */
 data class Author(
-    val id: Id,
+    val id: AuthorId,
     val name: AuthorName,
     val birthDate: BirthDate,
     val affiliation: AuthorAffiliation = AuthorAffiliation.of("").getOrThrow(),
@@ -18,14 +18,14 @@ data class Author(
             affiliation: AuthorAffiliation = AuthorAffiliation.of("").getOrThrow(),
         ): Author =
             Author(
-                id = Id.generate(),
+                id = AuthorId.generate(),
                 name = name,
                 birthDate = birthDate,
                 affiliation = affiliation,
             )
 
         fun ofExisting(
-            id: Id,
+            id: AuthorId,
             name: AuthorName,
             birthDate: BirthDate,
             affiliation: AuthorAffiliation = AuthorAffiliation.of("").getOrThrow(),
